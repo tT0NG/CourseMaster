@@ -1,0 +1,459 @@
+{% extends 'base.html' %}
+{% block title %}CourseMaster -- PSU最好用的抢课神器{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+    <link href="{% get_static_prefix %}css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% get_static_prefix %}font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="{% get_static_prefix %}css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="{% get_static_prefix %}css/animate.css" rel="stylesheet">
+    <link href="{% get_static_prefix %}css/style.css" rel="stylesheet">
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="wrapper wrapper-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <button class="label label-success pull-right" data-toggle="modal" data-target="#myModal"
+                                    style="border: none"
+                                    >+
+                            </button>
+                            <h5>可抢课程</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">{{ user.courses_pack }}</h1>
+
+                            <div class="stat-percent font-bold text-success"> {{ user.courses_used }} 已使用 <i
+                                    class="fa fa-bolt"></i></div>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <button class=" label label-info pull-right" data-toggle="modal" data-target="#myModal"
+                                    style="border: none">+
+                            </button>
+                            <h5>已抢课程</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">{{ user.courses_caught }}</h1>
+
+                            <div class="stat-percent font-bold text-info">0 正在进行中 <i class="fa fa-bolt"></i></div>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>正在抢课</h5>
+                        </div>
+                        <div class="ibox-content">
+
+                            <h1 class="no-margins">9</h1>
+
+                            <div class="stat-percent font-bold text-navy">2 等待中<i class="fa fa-clock-o"></i>
+                            </div>
+                            <br/>
+
+
+                        </div>
+                    </div>
+                </div>
+                {% if user.courses_pack == 0 %}
+                    <div class="col-md-6">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+
+                                <span class="label label-danger pull-right">已用尽</span>
+                                <h5>添加课程</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h4>
+                                    <form class="form-inline">
+                                        <div class="row ">
+                                            <div class=" col-md-11 col-md-offset-1 input-group">
+                                                <input disabled placeholder="输入课号" type="text" name="class_number"
+                                                       id="class_number"
+                                                       class="form-control" required>
+                                            <span class="input-group-btn">
+                                                <button disabled type="submit" class="btn btn-primary">Submit</button>
+                                            </span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-md-6">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <span class="label label-primary pull-right">可添加</span>
+                                <h5>添加课程</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h4>
+                                    <form role="form" method="post" class="form-inline" action="{% url 'add_course' %}">
+                                        {% csrf_token %}
+                                        <div class="row ">
+                                            <div class=" col-md-11 col-md-offset-1 input-group">
+                                                <input placeholder="输入课号" type="text" name="class_number"
+                                                       id="class_number"
+                                                       class="form-control" required>
+                                            <span class="input-group-btn">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div>
+                                        <span class="pull-right text-right">
+                                        <small>Average courses info in : <strong>Penn State ({{ user.campus }})</strong>
+                                        </small>
+                                            <br/>
+                                            All Courses: 8516
+                                        </span>
+
+                                <h3 class="font-bold no-margins">
+                                    运行日志
+                                </h3>
+                                <small>Operation log.</small>
+                            </div>
+
+                            <div class="m-t-sm">
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div>
+                                            <canvas id="lineChart" height="114"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ul class="stat-list m-t-lg">
+                                            <li>
+                                                <h2 class="no-margins">2,346</h2>
+                                                <small>Total courses activating in period</small>
+                                                <div class="progress progress-mini">
+                                                    <div class="progress-bar" style="width: 48%;"></div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <h2 class="no-margins ">4,422</h2>
+                                                <small>Total courses caught in period</small>
+                                                <div class="progress progress-mini">
+                                                    <div class="progress-bar" style="width: 60%;"></div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="m-t-md">
+                                <small class="pull-right">
+                                    <i class="fa fa-clock-o"> </i>
+                                    Update on 18.07.2015
+                                </small>
+                                <small>
+
+                                </small>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-warning pull-right">Important</span>
+                            <h5>选课信息</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <small class="stats-label">Fall 2015</small>
+                                    <h4>Semester Start</h4>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <small class="stats-label"> Date</small>
+                                    <h4>2015-08-28</h4>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <small class="stats-label">Fall 2015</small>
+                                    <h4>Drop Deadline</h4>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <small class="stats-label"> Date</small>
+                                    <h4>2015-09-03</h4>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <small class="stats-label">Fall 2015</small>
+                                    <h4>Add Deadline</h4>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <small class="stats-label"> Date</small>
+                                    <h4>2015-09-04</h4>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>您的选课状态</h5>
+
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive">
+                                <table class="table table-striped text-center">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">课程代码</th>
+                                        <th class="text-center">课程简称</th>
+                                        <th class="text-center">课程时间</th>
+                                        <th class="text-center">您的排序</th>
+                                        <th class="text-center">状态</th>
+                                        <th class="text-center">加速</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for course in courses_info_list %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ course.number }}</td>
+                                            <td>{{ course.code }}</td>
+                                            <td>M W F 8:00 AM - 8:50 AM<br>
+                                                R 8:00 AM - 9:15 AM
+                                            </td>
+                                            <td>{{ course.order }}</td>
+                                            {% if course.running %}
+                                                <td><a href="#"><i class="fa fa-bolt"></i></a></td>
+                                                <td>您已在首位</td>
+                                            {% else %}
+                                                <td><a href="#"><i class="fa text-warning fa-clock-o"></i></a></td>
+                                                <td>一键加速至首位</td>
+                                            {% endif %}
+                                            <td><a href="/delcourse/{{ course.number }}/">退订</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content animated fadeInDown">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                            class="sr-only">Close</span></button>
+                    <i class="fa fa-laptop modal-icon"></i>
+                    <h4 class="modal-title">添加新的课程包</h4>
+                    <small class="font-bold">当您已购买的课程包已用尽时，可以添加新的课程包进入您的账户<br>（已购买的课程包可延续至下个学期继续使用）
+                    </small>
+                </div>
+                <div>
+                    <table class="table table-striped text-center">
+
+                        <tbody>
+                        <tr>
+                            <td>2 Course Pack</td>
+                            <td>5 Course Pack</td>
+                            <td>Premium Pack</td>
+                        </tr>
+                        <tr>
+                            <td>可抢两门课</td>
+                            <td>可抢五门课</td>
+                            <td>不限抢课门数</td>
+                        </tr>
+                        <tr>
+                            <td>遵守先来后到规则</td>
+                            <td>遵守先来后到规则</td>
+                            <td>可以插队</td>
+                        </tr>
+                        <tr>
+                            <td>$20</td>
+                            <td class="text-navy"> $35 <i class="fa fa-level-down"></i></td>
+                            <td>$70</td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/buycourse/2/" type="button" class="btn btn-sm btn-primary">购买</a></td>
+                            <td><a href="/buycourse/5/" type="button" class="btn btn-sm btn-primary">购买</a></td>
+                            <td><a href="/buycourse/0/" type="button" class="btn btn-sm btn-primary">购买</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="close" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+    <!-- Mainly scripts -->
+    <script src="{% get_static_prefix %}js/jquery-2.1.1.js"></script>
+    <script src="{% get_static_prefix %}js/bootstrap.min.js"></script>
+    <script src="{% get_static_prefix %}js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="{% get_static_prefix %}js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="{% get_static_prefix %}js/inspinia.js"></script>
+    <script src="{% get_static_prefix %}js/plugins/pace/pace.min.js"></script>
+
+    <!-- Flot -->
+    <script src="{% get_static_prefix %}js/plugins/flot/jquery.flot.js"></script>
+    <script src="{% get_static_prefix %}js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="{% get_static_prefix %}js/plugins/flot/jquery.flot.resize.js"></script>
+
+    <!-- ChartJS-->
+    <script src="{% get_static_prefix %}js/plugins/chartJs/Chart.min.js"></script>
+
+    <!-- Peity -->
+    <script src="{% get_static_prefix %}js/plugins/peity/jquery.peity.min.js"></script>
+    <!-- Peity demo -->
+    <script src="{% get_static_prefix %}js/demo/peity-demo.js"></script>
+
+    <script src="{% get_static_prefix %}js/plugins/toastr/toastr.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            setTimeout(function () {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 4000
+                };
+                {% if messages %}
+                    {% for message in messages %}
+                        {{ message|safe }}
+                    {% endfor %}
+                {% endif %}
+
+
+
+            }, 1300);
+
+
+            var d1 = [[1262304000000, 6], [1264982400000, 3057], [1267401600000, 20434], [1270080000000, 31982], [1272672000000, 26602], [1275350400000, 27826], [1277942400000, 24302], [1280620800000, 24237], [1283299200000, 21004], [1285891200000, 12144], [1288569600000, 10577], [1291161600000, 10295]];
+            var d2 = [[1262304000000, 5], [1264982400000, 200], [1267401600000, 1605], [1270080000000, 6129], [1272672000000, 11643], [1275350400000, 19055], [1277942400000, 30062], [1280620800000, 39197], [1283299200000, 37000], [1285891200000, 27000], [1288569600000, 21000], [1291161600000, 17000]];
+
+            var data1 = [
+                {label: "Data 1", data: d1, color: '#17a084'},
+                {label: "Data 2", data: d2, color: '#127e68'}
+            ];
+
+
+            var lineData = {
+                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                datasets: [
+                    {
+                        label: "Example dataset",
+                        fillColor: "rgba(220,220,220,0.5)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: [65, 59, 40, 51, 36, 25, 40]
+                    },
+                    {
+                        label: "Example dataset",
+                        fillColor: "rgba(26,179,148,0.5)",
+                        strokeColor: "rgba(26,179,148,0.7)",
+                        pointColor: "rgba(26,179,148,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(26,179,148,1)",
+                        data: [48, 48, 60, 39, 56, 37, 30]
+                    }
+                ]
+            };
+
+            var lineOptions = {
+                scaleShowGridLines: true,
+                scaleGridLineColor: "rgba(0,0,0,.05)",
+                scaleGridLineWidth: 1,
+                bezierCurve: true,
+                bezierCurveTension: 0.4,
+                pointDot: true,
+                pointDotRadius: 4,
+                pointDotStrokeWidth: 1,
+                pointHitDetectionRadius: 20,
+                datasetStroke: true,
+                datasetStrokeWidth: 2,
+                datasetFill: true,
+                responsive: true,
+            };
+
+
+            var ctx = document.getElementById("lineChart").getContext("2d");
+            var myNewChart = new Chart(ctx).Line(lineData, lineOptions);
+
+        });
+
+    </script>
+{% endblock %}

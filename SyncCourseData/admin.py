@@ -1,0 +1,14 @@
+from django.contrib import admin
+from .models import Course
+
+
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ('class_number', 'class_title', 'class_code')
+    list_filter = ('class_title', 'is_active')
+    search_fields = ('class_number',)
+    ordering = ('class_title',)
+    filter_horizontal = ()
+
+
+
+admin.site.register(Course, CourseAdmin)
