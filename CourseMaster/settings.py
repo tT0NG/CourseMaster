@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'r@fp^q^z%-0s*h=&szgrw6ve9^2%d+($q&a2m9&@ijflhnd&qr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Third Party Plugins
     'widget_tweaks',
-    'rest_framework',
     # My Apps
     'Account',
     'AddCourse',
