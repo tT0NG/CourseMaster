@@ -346,6 +346,56 @@
             </div>
         </div>
     </div>
+    <div class="modal inmodal" id="setPsuModel" tabindex="-1" role="dialog" aria-hidden="true" {% if not show_welcome %}style="display: none;{% endif %}">
+        <div class="modal-dialog">
+            <div class="modal-content animated fadeInDown">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                            class="sr-only">Close</span></button>
+                    <i class="fa fa-laptop modal-icon"></i>
+                    <h4 class="modal-title">欢迎来到Class Gotcha+!</h4>
+                    <small class="font-bold">让我们来进行一些基础设置吧～</small>
+                </div>
+                <div>
+                    <table class="table table-striped text-center">
+
+                        <tbody>
+                        <tr>
+                            <td>2 Course Pack</td>
+                            <td>5 Course Pack</td>
+                            <td>Premium Pack</td>
+                        </tr>
+                        <tr>
+                            <td>可抢两门课</td>
+                            <td>可抢五门课</td>
+                            <td>不限抢课门数</td>
+                        </tr>
+                        <tr>
+                            <td>遵守先来后到规则</td>
+                            <td>遵守先来后到规则</td>
+                            <td>可以插队</td>
+                        </tr>
+                        <tr>
+                            <td>$20</td>
+                            <td class="text-navy"> $35 <i class="fa fa-level-down"></i></td>
+                            <td>$70</td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/buycourse/2/" type="button" class="btn btn-sm btn-primary">购买</a></td>
+                            <td><a href="/buycourse/5/" type="button" class="btn btn-sm btn-primary">购买</a></td>
+                            <td><a href="/buycourse/0/" type="button" class="btn btn-sm btn-primary">购买</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="close" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 
@@ -393,9 +443,8 @@
                     {% endfor %}
                 {% endif %}
 
-
-
             }, 1300);
+
 
 
             var d1 = [[1262304000000, 6], [1264982400000, 3057], [1267401600000, 20434], [1270080000000, 31982], [1272672000000, 26602], [1275350400000, 27826], [1277942400000, 24302], [1280620800000, 24237], [1283299200000, 21004], [1285891200000, 12144], [1288569600000, 10577], [1291161600000, 10295]];

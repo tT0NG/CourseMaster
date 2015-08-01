@@ -1,12 +1,21 @@
+#coding=utf-8
 from django import forms
 from .models import Account  # fill in custom user info then save it
 from django.contrib.auth.forms import UserCreationForm
 
 
 class MyRegistrationForm(UserCreationForm):
+    SCHOOLS = (
+        ('', '选择校区'),
+        ('UP', 'University Park'),
+        ('None', 'Unavailable'),
+        ('None', 'Unavailable'),
+        ('None', 'Unavailable'),
+    )
     email = forms.EmailField(required=True)
     username = forms.CharField(required=True)
-    campus = forms.CharField(required=True)
+    campus = forms.ChoiceField(required=True,
+                               choices=SCHOOLS)
 
     class Meta:
         model = Account

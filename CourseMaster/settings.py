@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'r@fp^q^z%-0s*h=&szgrw6ve9^2%d+($q&a2m9&@ijflhnd&qr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -105,19 +105,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
-MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+STATIC_ROOT = "/Users/stevelee/CourseMaster/static/"
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = (
-    ('css', os.path.join(STATIC_ROOT, 'css').replace('\\', '/')),
-    ('js', os.path.join(STATIC_ROOT, 'js').replace('\\', '/')),
-    ('img', os.path.join(STATIC_ROOT, 'img').replace('\\', '/')),
-    ('font-awesome', os.path.join(STATIC_ROOT, 'font-awesome').replace('\\', '/')),
-    ('fonts', os.path.join(STATIC_ROOT, 'fonts').replace('\\', '/')),
-    ('landing', os.path.join(STATIC_ROOT, 'landing').replace('\\', '/')),
+    ('css', os.path.join(STATIC_ROOT, 'css/').replace('\\', '/')),
+    ('js', os.path.join(STATIC_ROOT, 'js/').replace('\\', '/')),
+    ('img', os.path.join(STATIC_ROOT, 'img/').replace('\\', '/')),
+    ('font-awesome', os.path.join(STATIC_ROOT, 'font-awesome/').replace('\\', '/')),
+    ('fonts', os.path.join(STATIC_ROOT, 'fonts/').replace('\\', '/')),
+    ('landing', os.path.join(STATIC_ROOT, 'landing/').replace('\\', '/')),
 )
 
 # Custom user model

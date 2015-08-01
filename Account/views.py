@@ -41,7 +41,6 @@ def RegisterView(request):
             return HttpResponseRedirect('/index/')
     else:
         form = MyRegistrationForm()
-        print 'the form submit error'
 
     #args = {}
     #args.update(csrf(request))

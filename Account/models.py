@@ -44,11 +44,11 @@ class Account(AbstractBaseUser):
     campus = models.CharField(max_length=40, blank=True)
     psu_account = models.CharField(max_length=40, unique=True)
     psu_password = models.CharField(max_length=100)
+    psu_is_set = models.BooleanField(default=False)
 
     courses_pack = models.IntegerField(default=0)
     courses_caught = models.IntegerField(default=0)
     courses_used = models.IntegerField(default=0)
-    #courses_having = models.
 
     is_admin = models.BooleanField(default=False)
     is_premium = models.BooleanField(default=False)

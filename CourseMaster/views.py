@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 from SyncCourseData.models import Course
 
@@ -23,8 +24,11 @@ def IndexView(request):
                                ('order', order), ('running', running)])
 
             courses_info_list.append(course_dic)
-        print courses_info_list
-
-        return render(request, 'index.html', {'courses_info_list': courses_info_list})
+        #print courses_info_list
+        if request.user.psu_is_set == True:
+            return render(request, 'index.html', {'courses_info_list': courses_info_list})
+        else:
+            messages.add_message(request, messages.INFO, "toastr.success('欢迎来到Class Gotcha+');")
+            return render(request, 'index.html', {'courses_info_list': courses_info_list, 'show_welcome': True})
     else:
         return HttpResponseRedirect('/login/')
