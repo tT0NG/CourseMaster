@@ -291,7 +291,6 @@ h1 {
   font-size: 40px;
 }
 .navy-section {
-  margin-top: 60px;
   background: #1ab394;
   color: #fff;
   padding: 20px 0;
@@ -369,7 +368,6 @@ li.pricing-title {
   background-image: url('../img/word_map.png');
   background-position: 50% 50%;
   background-repeat: no-repeat;
-  margin-top: 60px;
 }
 /* Buttons - only primary custom button
 ------------------------- */
