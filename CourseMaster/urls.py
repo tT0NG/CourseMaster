@@ -33,5 +33,7 @@ urlpatterns = [
     url(r'^buycourse/(?P<howmany>[0-9]{1})/$', AddCourse_views.BuyCourseView, name='buy_course'),
     url(r'^delcourse/(?P<number>[0-9]{6})/$', AddCourse_views.DeleteCourseView, name='delete_course'),
 
+    url(r'^setpsu/$', Account_views.AddPsuInfoView, name='setpsu'),
+
     url(r'^admin/', include(admin.site.urls)),
 ]

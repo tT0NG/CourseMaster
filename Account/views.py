@@ -1,6 +1,7 @@
-# Create your views here.
+# coding=utf-8
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
@@ -19,6 +20,8 @@ def LoginView(request):
             if user is not None:
                 if user.is_active:
                     auth_login(request, user)
+                    if user.psu_is_set:
+                         messages.add_message(request, messages.INFO, "toastr.success('欢迎回到Class Gotcha+','Welcome back!');")
                     return HttpResponseRedirect('/index/')
     else:
         form = AuthenticationForm()
@@ -30,7 +33,7 @@ def LogoutView(request):
     Log the user out
     '''
     auth_logout(request)
-    return HttpResponseRedirect('/login')
+    return HttpResponseRedirect('/')
 
 
 def RegisterView(request):
@@ -46,3 +49,16 @@ def RegisterView(request):
     #args.update(csrf(request))
     #args['form'] = MyRegistrationForm()
     return render(request, 'register.html', {'form': form})
+
+
+def AddPsuInfoView(request):
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            request.user.psu_account = request.POST['psuAccount']
+            request.user.psu_password = request.POST['psuPass']
+            request.user.psu_is_set = True
+            request.user.save()
+            return HttpResponseRedirect('/index/')
+
+    else:
+        return HttpResponseRedirect('/login/')

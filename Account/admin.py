@@ -68,7 +68,7 @@ class AccountAdmin(UserAdmin):
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('username', 'campus', 'psu_account', 'psu_password')}),
         ('Course Pack Info', {'fields': ('courses_pack', 'courses_caught', 'courses_used')}),
-        ('Permissions', {'fields': ('is_admin', 'is_premium')}),
+        ('Permissions', {'fields': ('is_admin', 'is_premium', 'psu_is_set')}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
     # overrides get_fieldsets to use this attribute when creating a user.

@@ -200,7 +200,7 @@
 
                                 <div class="col-xs-6">
                                     <small class="stats-label"> Date</small>
-                                    <h4>2015-08-28</h4>
+                                    <h4>2015-08-24</h4>
                                 </div>
 
                             </div>
@@ -346,7 +346,7 @@
             </div>
         </div>
     </div>
-    <div class="modal inmodal" id="setPsuModel" tabindex="-1" role="dialog" aria-hidden="true" {% if not show_welcome %}style="display: none;{% endif %}">
+    <div class="modal inmodal" id="setPsuModel" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content animated fadeInDown">
                 <div class="modal-header">
@@ -356,39 +356,16 @@
                     <h4 class="modal-title">欢迎来到Class Gotcha+!</h4>
                     <small class="font-bold">让我们来进行一些基础设置吧～</small>
                 </div>
-                <div>
-                    <table class="table table-striped text-center">
+                <div class="modal-body">
+                    <p>请提供您的PSU账号和密码，这样我们才能帮助您自动抢课</p>
+                    <p>所有的密码都是以加密的形式存储在数据库中，且会在抢课结束后自动销毁</p>
+                    <form role="form" method="post" action="{% url 'setpsu' %}">
+                        {% csrf_token %}
+                        <div class="form-group"><input type="text" id="psuAccount" name="psuAccount" placeholder="PSU Account (ex:abc1234)" class="form-control" required></div>
+                        <div class="form-group"><input type="password" id="psuPass" name="psuPass" placeholder="Password" class="form-control" required></div>
 
-                        <tbody>
-                        <tr>
-                            <td>2 Course Pack</td>
-                            <td>5 Course Pack</td>
-                            <td>Premium Pack</td>
-                        </tr>
-                        <tr>
-                            <td>可抢两门课</td>
-                            <td>可抢五门课</td>
-                            <td>不限抢课门数</td>
-                        </tr>
-                        <tr>
-                            <td>遵守先来后到规则</td>
-                            <td>遵守先来后到规则</td>
-                            <td>可以插队</td>
-                        </tr>
-                        <tr>
-                            <td>$20</td>
-                            <td class="text-navy"> $35 <i class="fa fa-level-down"></i></td>
-                            <td>$70</td>
-                        </tr>
-
-                        <tr>
-                            <td><a href="/buycourse/2/" type="button" class="btn btn-sm btn-primary">购买</a></td>
-                            <td><a href="/buycourse/5/" type="button" class="btn btn-sm btn-primary">购买</a></td>
-                            <td><a href="/buycourse/0/" type="button" class="btn btn-sm btn-primary">购买</a></td>
-                        </tr>
-                        </tbody>
-                    </table>
-
+                    <input class="btn btn-primary btn-group-justified" type="submit" value="确定">
+                           </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="close" data-dismiss="modal">Close</button>
@@ -445,7 +422,9 @@
 
             }, 1300);
 
-
+            {% if show_welcome %}
+                $('#setPsuModel').modal();
+            {% endif %}
 
             var d1 = [[1262304000000, 6], [1264982400000, 3057], [1267401600000, 20434], [1270080000000, 31982], [1272672000000, 26602], [1275350400000, 27826], [1277942400000, 24302], [1280620800000, 24237], [1283299200000, 21004], [1285891200000, 12144], [1288569600000, 10577], [1291161600000, 10295]];
             var d2 = [[1262304000000, 5], [1264982400000, 200], [1267401600000, 1605], [1270080000000, 6129], [1272672000000, 11643], [1275350400000, 19055], [1277942400000, 30062], [1280620800000, 39197], [1283299200000, 37000], [1285891200000, 27000], [1288569600000, 21000], [1291161600000, 17000]];

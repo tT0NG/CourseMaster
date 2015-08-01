@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib import messages
@@ -25,10 +26,10 @@ def IndexView(request):
 
             courses_info_list.append(course_dic)
         #print courses_info_list
-        if request.user.psu_is_set == True:
+        if request.user.psu_is_set:
             return render(request, 'index.html', {'courses_info_list': courses_info_list})
         else:
-            messages.add_message(request, messages.INFO, "toastr.success('欢迎来到Class Gotcha+');")
+            messages.add_message(request, messages.INFO, "toastr.success('欢迎来到Class Gotcha+','Welcome!');")
             return render(request, 'index.html', {'courses_info_list': courses_info_list, 'show_welcome': True})
     else:
         return HttpResponseRedirect('/login/')
