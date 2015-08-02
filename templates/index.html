@@ -2,7 +2,6 @@
 {% block title %}CourseMaster -- PSU最好用的抢课神器{% endblock %}
 
 {% load static %}
-{% load substract %}
 
 {% block styles %}
     <link href="{% get_static_prefix %}css/bootstrap.min.css" rel="stylesheet">
@@ -48,7 +47,7 @@
                         <div class="ibox-content">
                             <h1 class="no-margins">{{ user.courses_caught }}</h1>
 
-                            <div class="stat-percent font-bold text-info">{{ user.courses_used|subtract:user.courses_caught }} 正在进行中 <i class="fa fa-bolt"></i></div>
+                            <div class="stat-percent font-bold text-info">{{ runing_count }} 正在进行中 <i class="fa fa-bolt"></i></div>
                             <br/>
                         </div>
                     </div>
@@ -60,7 +59,7 @@
                         </div>
                         <div class="ibox-content">
 
-                            <h1 class="no-margins">{{ user.courses_used|subtract:user.courses_caught }}</h1>
+                            <h1 class="no-margins">{{ runing_count }}</h1>
 
                             <div class="stat-percent font-bold text-navy">2 等待中<i class="fa fa-clock-o"></i>
                             </div>
@@ -271,9 +270,7 @@
                                             <td>{{ forloop.counter }}</td>
                                             <td>{{ course.number }}</td>
                                             <td>{{ course.code }}</td>
-                                            <td>M W F 8:00 AM - 8:50 AM<br>
-                                                R 8:00 AM - 9:15 AM
-                                            </td>
+                                            <td>{{ course.time }}</td>
                                             <td>{{ course.order }}</td>
                                             {% if course.running %}
                                                 <td><a href="#"><i class="fa fa-bolt"></i></a></td>

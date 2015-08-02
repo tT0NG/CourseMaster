@@ -45,6 +45,7 @@ def DeleteCourseView(request, number):
         course.users_ordered.remove(request.user)
         request.user.courses_pack += 1
         request.user.courses_used -= 1
+        request.user.save()
         messages.add_message(request, messages.INFO, "toastr.success('课程已成功从您的账户中删除');")
         return HttpResponseRedirect('/index/')
     else:
