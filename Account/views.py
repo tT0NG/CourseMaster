@@ -54,7 +54,10 @@ def RegisterView(request):
 def AddPsuInfoView(request):
     if request.user.is_authenticated():
         if request.method == 'POST':
-            request.user.psu_account = request.POST['psuAccount']
+            try:
+                request.user.psu_account = request.POST['psuAccount']
+            except:
+                print ''
             request.user.psu_password = request.POST['psuPass']
             request.user.psu_is_set = True
             request.user.save()

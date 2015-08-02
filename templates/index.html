@@ -2,6 +2,7 @@
 {% block title %}CourseMaster -- PSU最好用的抢课神器{% endblock %}
 
 {% load static %}
+{% load substract %}
 
 {% block styles %}
     <link href="{% get_static_prefix %}css/bootstrap.min.css" rel="stylesheet">
@@ -47,7 +48,7 @@
                         <div class="ibox-content">
                             <h1 class="no-margins">{{ user.courses_caught }}</h1>
 
-                            <div class="stat-percent font-bold text-info">0 正在进行中 <i class="fa fa-bolt"></i></div>
+                            <div class="stat-percent font-bold text-info">{{ user.courses_used|subtract:user.courses_caught }} 正在进行中 <i class="fa fa-bolt"></i></div>
                             <br/>
                         </div>
                     </div>
@@ -59,13 +60,11 @@
                         </div>
                         <div class="ibox-content">
 
-                            <h1 class="no-margins">9</h1>
+                            <h1 class="no-margins">{{ user.courses_used|subtract:user.courses_caught }}</h1>
 
                             <div class="stat-percent font-bold text-navy">2 等待中<i class="fa fa-clock-o"></i>
                             </div>
                             <br/>
-
-
                         </div>
                     </div>
                 </div>
@@ -133,7 +132,7 @@
                                         <small>Average courses info in : <strong>Penn State ({{ user.campus }})</strong>
                                         </small>
                                             <br/>
-                                            All Courses: 8516
+                                            All Courses: 13424
                                         </span>
 
                                 <h3 class="font-bold no-margins">
@@ -385,7 +384,7 @@
                     <p>所有的密码都是以加密的形式存储在数据库中，且会在抢课结束后自动销毁</p>
                 </div>
                 <div class="modal-body">
-                    <form role="form" methogit d="post" action="{% url 'setpsu' %}">
+                    <form role="form" method="post" action="{% url 'setpsu' %}">
                         {% csrf_token %}
                         <div class="form-group"><input type="text" id="psuAccount" name="psuAccount"  value="{{ user.psu_account }}" class="form-control" required disabled></div>
                         <div class="form-group"><input type="password" id="psuPass" name="psuPass" placeholder="Password" class="form-control" required></div>

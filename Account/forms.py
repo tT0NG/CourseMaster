@@ -8,9 +8,6 @@ class MyRegistrationForm(UserCreationForm):
     SCHOOLS = (
         ('', '选择校区'),
         ('UP', 'University Park'),
-        ('None', 'Unavailable'),
-        ('None', 'Unavailable'),
-        ('None', 'Unavailable'),
     )
     email = forms.EmailField(required=True)
     username = forms.CharField(required=True)

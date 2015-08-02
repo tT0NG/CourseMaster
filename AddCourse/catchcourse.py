@@ -12,9 +12,11 @@ def add_class():
             user = course.users_ordered.all()[0]
             # TODO: check if catch is success
             if submitClass(user.psu_account, user.psu_password, course.class_number):
-                print 'success'
+                course.users_ordered.remove(user)
+
             else:
-                print 'fault'
+                user.courses_pack += 1
+
 
 def submitClass(usrname, password, sectionNubmer):
     try:
