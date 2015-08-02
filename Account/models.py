@@ -42,7 +42,7 @@ class Account(AbstractBaseUser):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=40, unique=True)
     campus = models.CharField(max_length=40, blank=True)
-    psu_account = models.CharField(max_length=40, unique=True)
+    psu_account = models.CharField(max_length=40)
     psu_password = models.CharField(max_length=100)
     psu_is_set = models.BooleanField(default=False)
 

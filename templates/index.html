@@ -359,9 +359,35 @@
                 <div class="modal-body">
                     <p>请提供您的PSU账号和密码，这样我们才能帮助您自动抢课</p>
                     <p>所有的密码都是以加密的形式存储在数据库中，且会在抢课结束后自动销毁</p>
+                    <p><strong>注意：</strong>PSU账号一经绑定是不可以修改的哦，请务必核实清楚</p>
                     <form role="form" method="post" action="{% url 'setpsu' %}">
                         {% csrf_token %}
                         <div class="form-group"><input type="text" id="psuAccount" name="psuAccount" placeholder="PSU Account (ex:abc1234)" class="form-control" required></div>
+                        <div class="form-group"><input type="password" id="psuPass" name="psuPass" placeholder="Password" class="form-control" required></div>
+
+                    <input class="btn btn-primary btn-group-justified" type="submit" value="确定">
+                           </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="close" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal inmodal" id="reSetModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content animated fadeInDown">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                            class="sr-only">Close</span></button>
+                    <i class="fa fa-laptop modal-icon"></i>
+                    <h4 class="modal-title">重设PSU密码</h4>
+                    <p>所有的密码都是以加密的形式存储在数据库中，且会在抢课结束后自动销毁</p>
+                </div>
+                <div class="modal-body">
+                    <form role="form" methogit d="post" action="{% url 'setpsu' %}">
+                        {% csrf_token %}
+                        <div class="form-group"><input type="text" id="psuAccount" name="psuAccount"  value="{{ user.psu_account }}" class="form-control" required disabled></div>
                         <div class="form-group"><input type="password" id="psuPass" name="psuPass" placeholder="Password" class="form-control" required></div>
 
                     <input class="btn btn-primary btn-group-justified" type="submit" value="确定">
