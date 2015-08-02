@@ -10,11 +10,13 @@ def add_class():
     for course in activated_class_list:
         if sync_class(course.class_title, course.class_code, course.class_number):
             user = course.users_ordered.all()[0]
-            # TODO: check if catch is success
             if submitClass(user.psu_account, user.psu_password, course.class_number):
+                #success
+                user.courses_caught += 1
                 course.users_ordered.remove(user)
 
             else:
+                #unsuccess
                 user.courses_pack += 1
 
 
