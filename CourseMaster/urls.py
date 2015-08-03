@@ -24,6 +24,7 @@ from AddCourse import views as AddCourse_views
 urlpatterns = [
     url(r'^$', views.PandingView, name='landing'),
     url(r'^index/$', views.IndexView, name='index'),
+    url(r'^faq/$', views.FaqView, name='faq'),
 
     url(r'^login/$', Account_views.LoginView, name='login'),
     url(r'^logout/$', Account_views.LogoutView, name='logout'),
@@ -34,5 +35,5 @@ urlpatterns = [
 
     url(r'^setpsu/$', Account_views.AddPsuInfoView, name='setpsu'),
 
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^steve/', include(admin.site.urls)),
 ]

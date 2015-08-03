@@ -13,19 +13,22 @@ def LoginView(request):
     '''
     Login View
     '''
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            user = authenticate(email=request.POST['username'], password=request.POST['password'])
-            if user is not None:
-                if user.is_active:
-                    auth_login(request, user)
-                    if user.psu_is_set:
-                         messages.add_message(request, messages.INFO, "toastr.success('欢迎回到Class Gotcha+','Welcome back!');")
-                    return HttpResponseRedirect('/index/')
+    if not request.user.is_authenticated():
+        if request.method == 'POST':
+            form = AuthenticationForm(data=request.POST)
+            if form.is_valid():
+                user = authenticate(email=request.POST['username'], password=request.POST['password'])
+                if user is not None:
+                    if user.is_active:
+                        auth_login(request, user)
+                        if user.psu_is_set:
+                             messages.add_message(request, messages.INFO, "toastr.success('欢迎回到Class Gotcha+','Welcome back!');")
+                        return HttpResponseRedirect('/index/')
+        else:
+            form = AuthenticationForm()
+        return render(request, 'login.html', {'form': form})
     else:
-        form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form})
+        return HttpResponseRedirect('/index/')
 
 
 def LogoutView(request):

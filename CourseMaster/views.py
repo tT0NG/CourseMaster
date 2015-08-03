@@ -9,6 +9,9 @@ from SyncCourseData.models import Course
 def PandingView(request):
     return render(request, 'landing.html')
 
+def FaqView(request):
+    return render(request, 'faq.html')
+
 
 def IndexView(request):
     if request.user.is_authenticated():

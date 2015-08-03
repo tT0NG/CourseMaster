@@ -1,0 +1,360 @@
+{% extends 'base.html' %}
+{% block title %}CourseMaster -- PSU最好用的抢课神器{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+    <link href="{% get_static_prefix %}css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% get_static_prefix %}font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="{% get_static_prefix %}css/animate.css" rel="stylesheet">
+    <link href="{% get_static_prefix %}css/style.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+                <div class="col-lg-12">
+                    <div class="wrapper wrapper-content animated fadeInRight">
+
+                        <div class="ibox-content m-b-sm border-bottom">
+                            <div class="text-center p-lg">
+                                <h2>这里是FAQ页面，常见的问题都可以在这里找到答案</h2>
+                                <span>如果您没找到所需要的信息，请联系开发者</span>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <a data-toggle="collapse" href="#faq1" class="faq-question">如果我现有一节课与要抢的课时间冲突会怎样？</a>
+                                    <small>Added by <strong>Steve Lee</strong> <i class="fa fa-clock-o"></i> Today 2:40 pm</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="small font-bold">Steve Lee</span>
+                                    <div class="tag-list">
+                                        <span class="tag-item">课程</span>
+                                        <span class="tag-item">时间</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <span class="small font-bold">Voting </span><br>
+                                    42
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="faq1" class="panel-collapse collapse ">
+                                        <div class="faq-answer">
+                                            <h5>
+                                               ClassGotcha+会自动踢掉您现有的课，并新添上要抢的课，所以在把课程加入ClassGotcha前请务必核对好时间。
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <a data-toggle="collapse" href="#faq2" class="faq-question">在开学前最多可以hold多少节课？</a>
+                                     <small>Added by <strong>Steve Lee</strong> <i class="fa fa-clock-o"></i> Today 2:40 pm</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="small font-bold">Steve Lee</span>
+                                    <div class="tag-list">
+                                        <span class="tag-item">课程</span>
+                                        <span class="tag-item">数量</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <span class="small font-bold">Voting </span><br>
+                                    24
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="faq2" class="panel-collapse collapse">
+                                        <div class="faq-answer">
+                                            <p>
+                                               在24号开课前，最多只可以有19个学分的课，再多的话是无法添加的，ClassGotcha+也不行
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <a data-toggle="collapse" href="#faq3" class="faq-question">我不小心加错课了怎么办？</a>
+                                    <small>Added by <strong>Steve Lee</strong> <i class="fa fa-clock-o"></i> Today 2:40 pm</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="small font-bold">Alex Berg</span>
+                                    <div class="tag-list">
+                                        <span class="tag-item">General</span>
+                                        <span class="tag-item">Web App</span>
+                                        <span class="tag-item">Instruction</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <span class="small font-bold">Voting </span><br>
+                                    22
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="faq3" class="panel-collapse collapse">
+                                        <div class="faq-answer">
+                                            <p>
+                                               直接点删除就好，您的可用课程会重新＋1，不会消失的。
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <a data-toggle="collapse" href="#faq4" class="faq-question">What Finibus Bonorum et Malorum mean ?</a>
+                                    <small>Added by <strong>Janet North</strong> <i class="fa fa-clock-o"></i> Today 2:43 pm - 22.06.2014</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="small font-bold">Robert Nowak</span>
+                                    <div class="tag-list">
+                                        <span class="tag-item">Buttons</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <span class="small font-bold">Voting </span><br>
+                                    65
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="faq4" class="panel-collapse collapse">
+                                        <div class="faq-answer">
+                                            <p>
+                                                Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus
+                                                Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written
+                                                in 45 BC. This book is a treatise on the theory of ethics, very popular
+                                                during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum
+                                                dolor sit amet..", comes from a line in section 1.10.32.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <a data-toggle="collapse" href="#faq5" class="faq-question">The standard chunk of Lorem Ipsum used since ?</a>
+                                    <small>Added by <strong>Robert Task</strong> <i class="fa fa-clock-o"></i> Today 1:23 pm - 12.06.2014</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="small font-bold">Sandra Smith</span>
+                                    <div class="tag-list">
+                                        <span class="tag-item">General</span>
+                                        <span class="tag-item">License</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <span class="small font-bold">Voting </span><br>
+                                    76
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="faq5" class="panel-collapse collapse">
+                                        <div class="faq-answer">
+                                            <p>
+                                                The standard chunk of Lorem Ipsum used since the 1500s is reproduced
+                                                below for those interested. Sections 1.10.32 and 1.10.33 from "de
+                                                Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact
+                                                original form, accompanied by English versions from the 1914 translation
+                                                by H. Rackham.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <a data-toggle="collapse" href="#faq6" class="faq-question">Contrary to popular belief, Lorem Ipsum ?</a>
+                                    <small>Added by <strong>Monica Smith</strong> <i class="fa fa-clock-o"></i> Today 7:220 pm - 13.06.2014</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="small font-bold">Robert Nowak</span>
+                                    <div class="tag-list">
+                                        <span class="tag-item">Love</span>
+                                        <span class="tag-item">CC</span>
+                                        <span class="tag-item">Help</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <span class="small font-bold">Voting </span><br>
+                                    11
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="faq6" class="panel-collapse collapse">
+                                        <div class="faq-answer">
+                                            <p>
+                                                Contrary to popular belief, Lorem Ipsum is not simply random text. It
+                                                has roots in a piece of classical Latin literature from 45 BC, making it
+                                                over 2000 years old. Richard McClintock, a Latin professor at
+                                                Hampden-Sydney College
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <a data-toggle="collapse" href="#faq7" class="faq-question"> Many desktop publishing packages ? </a>
+                                    <small>Added by <strong>Damien Sate</strong> <i class="fa fa-clock-o"></i> Yestorday 4:50 pm - 8.06.2014</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="small font-bold">Alex Nowak</span>
+                                    <div class="tag-list">
+                                        <span class="tag-item">International</span>
+                                        <span class="tag-item">What</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <span class="small font-bold">Voting </span><br>
+                                    64
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="faq7" class="panel-collapse collapse">
+                                        <div class="faq-answer">
+                                            <p>
+                                                Many desktop publishing packages and web page editors now use Lorem
+                                                Ipsum as their default model text, and a search for 'lorem ipsum' will
+                                                uncover many web sites still in their infancy. Various versions have
+                                                evolved over the years, sometimes by accident, sometimes on purpose
+                                                (injected humour and the like).
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <a data-toggle="collapse" href="#faq8" class="faq-question">Lorem Ipsum, you need to be sure there isn't ?</a>
+                                    <small>Added by <strong>Pablo Sarnoq</strong> <i class="fa fa-clock-o"></i> Today 1:30 am - 1.06.2014</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="small font-bold">Natalie Cole</span>
+                                    <div class="tag-list">
+                                        <span class="tag-item">Translations</span>
+                                        <span class="tag-item">CC</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <span class="small font-bold">Voting </span><br>
+                                    10
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="faq8" class="panel-collapse collapse">
+                                        <div class="faq-answer">
+                                            <p>
+                                                Lorem Ipsum, you need to be sure there isn't anything embarrassing
+                                                hidden in the middle of text. All the Lorem Ipsum generators on the
+                                                Internet tend to repeat predefined chunks as necessary, making this the
+                                                first true generator on the Internet. It uses a dictionary of over 200
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <a data-toggle="collapse" href="#faq9" class="faq-question">There are many variations of passages ?</a>
+                                    <small>Added by <strong>Monica Smith</strong> <i class="fa fa-clock-o"></i> Today 1:60 pm - 11.06.2014</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="small font-bold">Alex Nowak</span>
+                                    <div class="tag-list">
+                                        <span class="tag-item">General</span>
+                                        <span class="tag-item">License</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <span class="small font-bold">Voting </span><br>
+                                    23
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="faq9" class="panel-collapse collapse">
+                                        <div class="faq-answer">
+                                            <p>
+                                                There are many variations of passages of Lorem Ipsum available, but the
+                                                majority have suffered alteration in some form, by injected humour, or
+                                                randomised words which don't look even slightly believable. If you are
+                                                going to use a passage
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Mainly scripts -->
+    <script src="{% get_static_prefix %}js/jquery-2.1.1.js"></script>
+    <script src="{% get_static_prefix %}js/bootstrap.min.js"></script>
+    <script src="{% get_static_prefix %}js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="{% get_static_prefix %}js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="{% get_static_prefix %}js/inspinia.js"></script>
+    <script src="{% get_static_prefix %}js/plugins/pace/pace.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            $('#loading-example-btn').click(function () {
+                btn = $(this);
+                simpleLoad(btn, true)
+
+                // Ajax example
+//                $.ajax().always(function () {
+//                    simpleLoad($(this), false)
+//                });
+
+                simpleLoad(btn, false)
+            });
+        });
+
+        function simpleLoad(btn, state) {
+            if (state) {
+                btn.children().addClass('fa-spin');
+                btn.contents().last().replaceWith(" Loading");
+            } else {
+                setTimeout(function () {
+                    btn.children().removeClass('fa-spin');
+                    btn.contents().last().replaceWith(" Refresh");
+                }, 2000);
+            }
+        }
+    </script>
+{% endblock %}
