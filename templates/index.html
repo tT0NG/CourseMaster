@@ -236,7 +236,6 @@
 
             </div>
             <div class="row">
-
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
@@ -273,11 +272,11 @@
                                             <td>{{ course.time }}</td>
                                             <td>{{ course.order }}</td>
                                             {% if course.running %}
-                                                <td><a href="#"><i class="fa fa-bolt"></i></a></td>
+                                               <td><a href="#"><i class="fa fa-bolt"></i></a></td>
                                                 <td>您已在首位</td>
                                             {% else %}
                                                 <td><a href="#"><i class="fa text-warning fa-clock-o"></i></a></td>
-                                                <td>一键加速至首位</td>
+                                                <td><button class=" label label-info" data-toggle="modal" data-target="#speedUpModal" style="border: none">一键加速</button></td>
                                             {% endif %}
                                             <td><a href="/delcourse/{{ course.number }}/">退订</a></td>
                                         </tr>
@@ -312,9 +311,9 @@
                             <td>Premium Pack</td>
                         </tr>
                         <tr>
-                            <td>可抢两门课</td>
-                            <td>可抢五门课</td>
-                            <td>不限抢课门数</td>
+                            <td>可抢2门课</td>
+                            <td>可抢5门课</td>
+                            <td>可抢20门课</td>
                         </tr>
                         <tr>
                             <td>遵守先来后到规则</td>
@@ -328,9 +327,9 @@
                         </tr>
 
                         <tr>
-                            <td><a href="/buycourse/2/" type="button" class="btn btn-sm btn-primary">购买</a></td>
-                            <td><a href="/buycourse/5/" type="button" class="btn btn-sm btn-primary">购买</a></td>
-                            <td><a href="/buycourse/0/" type="button" class="btn btn-sm btn-primary">购买</a></td>
+                            <td><a data-toggle="modal" data-target="#SteveModal" type="button" class="btn btn-sm btn-primary">购买</a></td>
+                            <td><a data-toggle="modal" data-target="#SteveModal" type="button" class="btn btn-sm btn-primary">购买</a></td>
+                            <td><a data-toggle="modal" data-target="#SteveModal" type="button" class="btn btn-sm btn-primary">购买</a></td>
                         </tr>
                         </tbody>
                     </table>
@@ -388,6 +387,44 @@
 
                     <input class="btn btn-primary btn-group-justified" type="submit" value="确定">
                            </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="close" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal inmodal" id="speedUpModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content animated fadeInDown">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                            class="sr-only">Close</span></button>
+                    <i class="fa fa-laptop modal-icon"></i>
+                    <h4 class="modal-title">只需$5<br>就可以将您的排序加速至首位</h4>
+                    <p>当有VIP用户正在抢当前课程时,或有用户比您先加速时,则不能加速</p>
+                </div>
+                <div class="modal-body text-center">
+                    <p>详细信息请联系</p>
+                    <img src="{% get_static_prefix %}img/qr.png"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="close" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal inmodal" id="SteveModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content animated fadeInDown">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                            class="sr-only">Close</span></button>
+                    <i class="fa fa-laptop modal-icon"></i>
+                    <h4 class="modal-title">联系我么么哒</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="{% get_static_prefix %}img/qr.png"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="close" data-dismiss="modal">Close</button>

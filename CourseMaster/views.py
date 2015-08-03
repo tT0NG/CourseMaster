@@ -13,24 +13,33 @@ def PandingView(request):
 def IndexView(request):
     if request.user.is_authenticated():
         runing_count = request.user.courses_used - request.user.courses_caught
-        courses = Course.objects.filter(users_ordered=request.user)
+        courses = request.user.get_courses_list()
         courses_info_list = []
         for course in courses:
+            this_course = Course.objects.get(class_number=course)
 
-            order = [i for i, x in enumerate(course.users_ordered.all()) if x == request.user][0] + 1
+            order = this_course.get_user_index(request.user.username)
+
+            if this_course.the_first != '':
+                order += 1
+
+            if this_course.the_premium != '':
+                order += 1
+
             running = False
-            if order == 1:
+            if order == 0:
                 running = True
 
-            course_dic = dict([('number', course.class_number), ('code', course.class_title + ' ' + course.class_code),
-                               ('order', order),('time', course.class_time), ('running', running)])
+            course_dic = dict([('number', course), ('code', this_course.class_title + ' ' + this_course.class_code),
+                               ('order', order+1), ('time', this_course.class_time), ('running', running)])
 
             courses_info_list.append(course_dic)
 
         if request.user.psu_is_set:
-            return render(request, 'index.html', {'courses_info_list': courses_info_list, 'runing_count' : runing_count})
+            return render(request, 'index.html', {'courses_info_list': courses_info_list, 'runing_count': runing_count})
         else:
             messages.add_message(request, messages.INFO, "toastr.success('欢迎来到Class Gotcha+','Welcome!');")
-            return render(request, 'index.html', {'courses_info_list': courses_info_list, 'show_welcome': True, 'runing_count' : runing_count})
+            return render(request, 'index.html',
+                          {'courses_info_list': courses_info_list, 'show_welcome': True, 'runing_count': runing_count})
     else:
         return HttpResponseRedirect('/login/')

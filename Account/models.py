@@ -42,6 +42,7 @@ class Account(AbstractBaseUser):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=40, unique=True)
     campus = models.CharField(max_length=40, blank=True)
+
     psu_account = models.CharField(max_length=40)
     psu_password = models.CharField(max_length=100)
     psu_is_set = models.BooleanField(default=False)
@@ -49,6 +50,8 @@ class Account(AbstractBaseUser):
     courses_pack = models.IntegerField(default=0)
     courses_caught = models.IntegerField(default=0)
     courses_used = models.IntegerField(default=0)
+    courses_list = models.TextField(default='[]')
+    courses_caught_list = models.TextField(default='[]')
 
     is_admin = models.BooleanField(default=False)
     is_premium = models.BooleanField(default=False)
@@ -72,6 +75,37 @@ class Account(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
+
+    def get_courses_list(self):
+        jsonDec = json.decoder.JSONDecoder()
+        courses_list = jsonDec.decode(self.courses_list)
+
+        return courses_list
+
+    def add_course(self, class_number):
+        courses_list = self.get_courses_list()
+        courses_list.append(class_number)
+        self.courses_list = json.dumps(courses_list)
+
+        self.courses_pack -= 1
+        self.courses_used += 1
+        self.save()
+
+    def remove_course(self, class_number):
+        courses_list = self.get_courses_list()
+        courses_list.remove(class_number)
+        self.courses_list = json.dumps(courses_list)
+
+        self.courses_pack += 1
+        self.courses_used -= 1
+        self.save()
+
+    def add_course_caught(self, class_number):
+        jsonDec = json.decoder.JSONDecoder()
+        caught_list = jsonDec.decode(self.courses_caught_list)
+        caught_list.append(class_number)
+        self.courses_caught_list = json.dumps(caught_list)
+        self.save()
 
     @property
     def is_staff(self):
