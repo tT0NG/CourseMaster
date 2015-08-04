@@ -2,22 +2,28 @@
 import mechanize
 import cookielib
 
-from SyncCourseData.models import Course
-from SyncCourseData.syncclass import sync_class
+from .models import Course
+from .syncclass import sync_class
 
 def add_class():
     activated_class_list = Course.objects.filter(is_active=True)
+    print activated_class_list
     for course in activated_class_list:
         if sync_class(course.class_title, course.class_code, course.class_number):
             user = course.get_first_user()
-            if submitClass(user.psu_account, user.psu_password, course.class_number):
-                # success
-                user.courses_caught += 1
-                course.remove_user(user.username)
+            try:
+                if submitClass(user.psu_account, user.psu_password, course.class_number):
+                    # success
+                    user.courses_caught += 1
+                    course.remove_user(user.username)
+                    user.save()
 
-            else:
-                # unsuccessful
-                user.courses_pack += 1
+                else:
+                    # unsuccessful
+                    user.courses_pack += 1
+                    user.save()
+            except:
+                pass
 
 
 def submitClass(usrname, password, sectionNubmer):

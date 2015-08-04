@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Course
+from .models import Course, ClassLog
 
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('class_number', 'class_title', 'class_code')
+    list_display = ('class_number', 'class_title', 'class_code', 'is_active')
     list_filter = ('class_title', 'is_active')
     search_fields = ('class_number',)
     ordering = ('class_title',)
@@ -12,3 +12,4 @@ class CourseAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Course, CourseAdmin)
+admin.site.register(ClassLog)

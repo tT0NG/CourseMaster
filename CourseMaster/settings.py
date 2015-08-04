@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'r@fp^q^z%-0s*h=&szgrw6ve9^2%d+($q&a2m9&@ijflhnd&qr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['classgotcha.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -126,8 +126,8 @@ LOGIN_REDIRECT_URL = '/index'
 
 # Secure settings
 
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_HTTPONLY = True
-X_FRAME_OPTIONS = 'DENY'
+#SECURE_CONTENT_TYPE_NOSNIFF = True
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
+#CSRF_COOKIE_HTTPONLY = True
+#X_FRAME_OPTIONS = 'DENY'

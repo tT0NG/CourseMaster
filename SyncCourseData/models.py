@@ -13,15 +13,15 @@ class Course(models.Model):
     is_active = models.BooleanField(default=False)
 
     users_ordered = models.TextField(null=True, default='[]')
-    the_first = models.CharField(max_length=100)
-    the_premium = models.CharField(max_length=100)
+    the_first = models.CharField(max_length=100, null=True, blank=True)
+    the_premium = models.CharField(max_length=100, null=True, blank=True)
 
     def __unicode__(self):
         return self.class_number
 
     def add_user(self, usrname):
         this_account = Account.objects.get(username=usrname)
-        if this_account.is_premium:
+        if this_account.is_premium and self.the_premium != '':
             self.the_premium = usrname
             self.save()
         else:
@@ -90,3 +90,7 @@ class Course(models.Model):
         jsonDec = json.decoder.JSONDecoder()
         user_list = jsonDec.decode(self.users_ordered)
         return user_list
+
+class ClassLog(models.Model):
+    running = models.BooleanField(default=False)
+    count = models.IntegerField(default=0)

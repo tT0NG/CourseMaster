@@ -20,6 +20,7 @@ from django.contrib import admin
 from . import views
 from Account import views as Account_views
 from AddCourse import views as AddCourse_views
+from SyncCourseData import views as Sync_Views
 
 urlpatterns = [
     url(r'^$', views.PandingView, name='landing'),
@@ -34,6 +35,9 @@ urlpatterns = [
     url(r'^delcourse/(?P<number>[0-9]{6})/$', AddCourse_views.DeleteCourseView, name='delete_course'),
 
     url(r'^setpsu/$', Account_views.AddPsuInfoView, name='setpsu'),
+
+    url(r'^start/$', Sync_Views.StartSyncView, name='start'),
+    url(r'^switch/$', Sync_Views.SwitchView, name='switch'),
 
     url(r'^steve/', include(admin.site.urls)),
 ]

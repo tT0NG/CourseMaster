@@ -19,7 +19,8 @@ def sync_class(class_title, class_code, class_number):
     br.close()
 
     for course in course_list:
-        detail = course.split(';')[1]
+        detail = course.split(';')
+        print detail
         if detail[0] == class_number:
             if detail[1] != '0':
                 return True
