@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 
 from SyncCourseData.models import Course
+from SyncCourseData.models import ClassLog
 
 
 def PandingView(request):
@@ -15,8 +16,10 @@ def FaqView(request):
 
 def IndexView(request):
     if request.user.is_authenticated():
-        waitting = 0
-        runing_count = request.user.courses_used - request.user.courses_caught
+        course_caught = ClassLog.objects.get(id=1).success
+        actvating = Course.objects.filter(is_active=True).count()
+        waiting = 0
+        running_count = request.user.courses_used - request.user.courses_caught
         courses = request.user.get_courses_list()
         courses_info_list = []
         for course in courses:
@@ -33,17 +36,21 @@ def IndexView(request):
             running = True
             if order != 0:
                 running = False
-                waitting += 1
+                waiting += 1
             course_dic = dict([('number', course), ('code', this_course.class_title + ' ' + this_course.class_code),
                                ('order', order + 1), ('time', this_course.class_time), ('running', running)])
 
             courses_info_list.append(course_dic)
 
         if request.user.psu_is_set:
-            return render(request, 'index.html', {'courses_info_list': courses_info_list, 'runing_count': runing_count, 'waitting':waitting})
+            return render(request, 'index.html',
+                          {'courses_info_list': courses_info_list, 'runing_count': running_count,
+                           'waiting': waiting, 'course_caught': course_caught, 'actvating': actvating})
         else:
             messages.add_message(request, messages.INFO, "toastr.success('欢迎来到Class Gotcha+','Welcome!');")
             return render(request, 'index.html',
-                          {'courses_info_list': courses_info_list, 'show_welcome': True, 'runing_count': runing_count, 'waitting':waitting})
+                          {'courses_info_list': courses_info_list, 'show_welcome': True, 'runing_count': running_count,
+                           'waiting': waiting, 'course_caught': course_caught, 'actvating': actvating})
+
     else:
         return HttpResponseRedirect('/login/')

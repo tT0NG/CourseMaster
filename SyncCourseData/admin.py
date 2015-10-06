@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course, ClassLog
+from .models import Course, ClassLog, RunningCount
 
 
 class CourseAdmin(admin.ModelAdmin):
@@ -13,3 +13,4 @@ class CourseAdmin(admin.ModelAdmin):
 
 admin.site.register(Course, CourseAdmin)
 admin.site.register(ClassLog)
+admin.site.register(RunningCount)

@@ -93,4 +93,26 @@ class Course(models.Model):
 
 class ClassLog(models.Model):
     running = models.BooleanField(default=False)
+    success = models.IntegerField(default=0)
+    failed = models.IntegerField(default=0)
+    catchedcourse = models.TextField(default='[]')
+    failedcourse = models.TextField(default='[]')
+
+    def add_catched_course(self, class_number):
+        jsonDec = json.decoder.JSONDecoder()
+        class_number_list = jsonDec.decode(self.catchedcourse)
+        class_number_list.append(class_number)
+        self.catchedcourse = json.dumps(class_number_list)
+        self.success += 1
+        self.save()
+
+    def add_failed_course(self, class_number):
+        jsonDec = json.decoder.JSONDecoder()
+        class_number_list = jsonDec.decode(self.failedcourse)
+        class_number_list.append(class_number)
+        self.failedcourse = json.dumps(class_number_list)
+        self.failed += 1
+        self.save()
+
+class RunningCount(models.Model):
     count = models.IntegerField(default=0)
