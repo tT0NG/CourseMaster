@@ -57,3 +57,9 @@ docs/_build/
 target/
 .DS_Store
 .idea
+.pyc
+__init__.pyc
+admin.pyc
+0001_initial.pyc
+models.pyc
+syncclass.pyc

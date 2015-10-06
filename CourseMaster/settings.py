@@ -105,7 +105,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_ROOT = "/Users/stevelee/CourseMaster/static/"
+STATIC_ROOT = "/Users/steveleelx/CodeRepository/CourseMaster_env/CourseMaster/static/"
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'

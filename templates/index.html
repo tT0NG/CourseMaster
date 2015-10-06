@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}ClassGotcha+ | PSU最好用的抢课神器{% endblock %}
+{% block title %}PSU抢课神器 ｜ 个人主页{% endblock %}
 
 {% load static %}
 
@@ -17,57 +17,7 @@
     <div class="wrapper wrapper-content">
         <div class="container">
             <div class="row">
-                <div class="col-md-2">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <button class="label label-success pull-right" data-toggle="modal" data-target="#myModal"
-                                    style="border: none"
-                                    >+
-                            </button>
-                            <h5>可抢课程</h5>
-                        </div>
-                        <div class="ibox-content">
-                            <h1 class="no-margins">{{ user.courses_pack }}</h1>
-
-                            <div class="stat-percent font-bold text-success"> {{ user.courses_used }} 已使用 <i
-                                    class="fa fa-bolt"></i></div>
-                            <br/>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <button class=" label label-info pull-right" data-toggle="modal" data-target="#myModal"
-                                    style="border: none">+
-                            </button>
-                            <h5>已抢课程</h5>
-                        </div>
-                        <div class="ibox-content">
-                            <h1 class="no-margins">{{ user.courses_caught }}</h1>
-
-                            <div class="stat-percent font-bold text-info">{{ runing_count }} 正在进行中 <i class="fa fa-bolt"></i></div>
-                            <br/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>正在抢课</h5>
-                        </div>
-                        <div class="ibox-content">
-
-                            <h1 class="no-margins">{{ runing_count }}</h1>
-
-                            <div class="stat-percent font-bold text-navy">2 等待中<i class="fa fa-clock-o"></i>
-                            </div>
-                            <br/>
-                        </div>
-                    </div>
-                </div>
-                {% if user.courses_pack == 0 %}
+                                {% if user.courses_pack == 0 %}
                     <div class="col-md-6">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
@@ -120,6 +70,57 @@
                         </div>
                     </div>
                 {% endif %}
+                <div class="col-md-2">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <button class="label label-success pull-right" data-toggle="modal" data-target="#myModal"
+                                    style="border: none"
+                                    >+
+                            </button>
+                            <h5>可抢课程</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">{{ user.courses_pack }}</h1>
+
+                            <div class="stat-percent font-bold text-success"> {{ user.courses_used }} 已使用 <i
+                                    class="fa fa-bolt"></i></div>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <button class=" label label-info pull-right" data-toggle="modal" data-target="#myModal"
+                                    style="border: none">+
+                            </button>
+                            <h5>已抢课程</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">{{ user.courses_caught }}</h1>
+
+                            <div class="stat-percent font-bold text-info">{{ runing_count }} 正在进行中 <i class="fa fa-bolt"></i></div>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>正在抢课</h5>
+                        </div>
+                        <div class="ibox-content">
+
+                            <h1 class="no-margins">{{ runing_count }}</h1>
+
+                            <div class="stat-percent font-bold text-navy">{{ waitting }} 等待中<i class="fa fa-clock-o"></i>
+                            </div>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="row">
                 <div class="col-lg-8">
@@ -251,6 +252,9 @@
                         <div class="ibox-content">
 
                             <div class="table-responsive">
+                            {% if runing_count == 0 %}
+                                <p> 您还没有开始抢课哦～ </p>
+                            {% else %}
                                 <table class="table table-striped text-center">
                                     <thead>
                                     <tr>
@@ -283,6 +287,64 @@
                                     {% endfor %}
                                     </tbody>
                                 </table>
+                            {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>历史记录</h5>
+
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive">
+                            {% if runing_count == 0 %}
+                                <p> 您还没有开始抢课哦～ </p>
+                            {% else %}
+                                <table class="table table-striped text-center">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">课程代码</th>
+                                        <th class="text-center">课程简称</th>
+                                        <th class="text-center">课程时间</th>
+                                        <th class="text-center">您的排序</th>
+                                        <th class="text-center">状态</th>
+                                        <th class="text-center">加速</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for course in courses_info_list %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ course.number }}</td>
+                                            <td>{{ course.code }}</td>
+                                            <td>{{ course.time }}</td>
+                                            <td>{{ course.order }}</td>
+                                            {% if course.running %}
+                                               <td><a href="#"><i class="fa fa-bolt"></i></a></td>
+                                                <td>您已在首位</td>
+                                            {% else %}
+                                                <td><a href="#"><i class="fa text-warning fa-clock-o"></i></a></td>
+                                                <td><button class=" label label-info" data-toggle="modal" data-target="#speedUpModal" style="border: none">一键加速</button></td>
+                                            {% endif %}
+                                            <td><a href="/delcourse/{{ course.number }}/">退订</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
                             </div>
                         </div>
                     </div>
@@ -291,7 +353,7 @@
         </div>
     </div>
     <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content animated fadeInDown">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
@@ -308,25 +370,31 @@
                         <tr>
                             <td>2 Course Pack</td>
                             <td>5 Course Pack</td>
-                            <td>Premium Pack</td>
+                            <td>VIP Pack</td>
+                            <td>Super VIP Pack</td>
                         </tr>
                         <tr>
                             <td>可抢2门课</td>
                             <td>可抢5门课</td>
+                            <td>可抢10门课</td>
                             <td>可抢20门课</td>
                         </tr>
                         <tr>
-                            <td>遵守先来后到规则</td>
-                            <td>遵守先来后到规则</td>
-                            <td>可以插队</td>
+                            <td>先选先抢</td>
+                            <td>先选先抢</td>
+                            <td class="text-danger">可以排在普通用户前面</td>
+                             <td class="text-danger">可以排在VIP前面</td>
                         </tr>
                         <tr>
                             <td>$20</td>
-                            <td class="text-navy"> $35 <i class="fa fa-level-down"></i></td>
+                            <td>$40</td>
                             <td>$70</td>
+                            <td>$100</td>
+
                         </tr>
 
                         <tr>
+                            <td><a data-toggle="modal" data-target="#SteveModal" type="button" class="btn btn-sm btn-primary">购买</a></td>
                             <td><a data-toggle="modal" data-target="#SteveModal" type="button" class="btn btn-sm btn-primary">购买</a></td>
                             <td><a data-toggle="modal" data-target="#SteveModal" type="button" class="btn btn-sm btn-primary">购买</a></td>
                             <td><a data-toggle="modal" data-target="#SteveModal" type="button" class="btn btn-sm btn-primary">购买</a></td>
@@ -348,13 +416,13 @@
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
                             class="sr-only">Close</span></button>
                     <i class="fa fa-laptop modal-icon"></i>
-                    <h4 class="modal-title">欢迎来到Class Gotcha+!</h4>
+                    <h4 class="modal-title">PSUCLASS.COM</h4>
                     <small class="font-bold">让我们来进行一些基础设置吧～</small>
                 </div>
                 <div class="modal-body">
                     <p>请提供您的PSU账号和密码，这样我们才能帮助您自动抢课</p>
                     <p>所有的密码都是以加密的形式存储在数据库中，且会在抢课结束后自动销毁</p>
-                    <p><strong>注意：</strong>PSU账号一经绑定是不可以修改的哦，请务必核实清楚</p>
+                    <p><strong style="color: red">注意：PSU账号格式为abc1234，一经绑定是不可修改，请务必核实清楚</strong></p>
                     <form role="form" method="post" action="{% url 'setpsu' %}">
                         {% csrf_token %}
                         <div class="form-group"><input type="text" id="psuAccount" name="psuAccount" placeholder="PSU Account (ex:abc1234)" class="form-control" required></div>
