@@ -60,9 +60,12 @@ def AddPsuInfoView(request):
             try:
                 request.user.psu_account = request.POST['psuAccount']
             except:
-                print ''
+                pass
             request.user.psu_password = request.POST['psuPass']
             request.user.psu_is_set = True
+            if not request.user.is_active:
+                request.user.is_active = True
+                request.user.courses_failed = 0
             request.user.save()
             return HttpResponseRedirect('/index/')
 

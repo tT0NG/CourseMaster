@@ -16,8 +16,26 @@
 {% block content %}
     <div class="wrapper wrapper-content">
         <div class="container">
+        {% if not user.is_active %}
+        <div class="col-md-14">
+                        <div class="ibox float-e-margins text-danger text-center">
+
+                            <div class="ibox-content">
+                                <h4 >
+                                     <i class="fa fa-warning"></i>Wanring: 您的账户因连续5次以上抢课失败而被锁定
+                                </h4>
+                                <p >请根据以下规则排查原因</p>
+                                <p >1.账户输成abc1234@psu.edu而不是abc1234<br>解决方法：请联系开发者</p>
+                                <p >2.密码输错<br>解决方法：点顶栏修改psu密码修改</p>
+                                <p >3.课程control <br>解决方法：暂无，请去找advisor or 换节课抢</p>
+                                <p >4.学分超过19 <br>解决方法：如果想上超过19个学分的课，请在下学期开学后再选</p>
+                                <strong >排查完成后请修改PSU密码来重新激活您的账户</strong>
+                            </div>
+                        </div>
+                    </div>
+        {% endif %}
             <div class="row">
-                                {% if user.courses_pack == 0 %}
+                                {% if user.courses_pack == 0 or not user.is_active %}
                     <div class="col-md-6">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">

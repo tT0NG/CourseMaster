@@ -50,13 +50,16 @@ class Account(AbstractBaseUser):
     courses_pack = models.IntegerField(default=0)
     courses_caught = models.IntegerField(default=0)
     courses_used = models.IntegerField(default=0)
+    courses_failed = models.IntegerField(default=0)
     courses_list = models.TextField(default='[]')
     courses_caught_list = models.TextField(default='[]')
     courses_failed_list = models.TextField(default='[]')
 
+
     is_admin = models.BooleanField(default=False)
     is_vip = models.BooleanField(default=False)
     is_supervip = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -90,8 +93,6 @@ class Account(AbstractBaseUser):
             courses_list = jsonDec.decode(self.courses_failed_list)
         return courses_list
 
-
-        return courses_list
     def add_course(self, class_number):
         courses_list = self.get_courses_list('running')
         courses_list.append(class_number)
