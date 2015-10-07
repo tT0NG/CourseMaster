@@ -52,9 +52,11 @@ class Account(AbstractBaseUser):
     courses_used = models.IntegerField(default=0)
     courses_list = models.TextField(default='[]')
     courses_caught_list = models.TextField(default='[]')
+    courses_failed_list = models.TextField(default='[]')
 
     is_admin = models.BooleanField(default=False)
-    is_premium = models.BooleanField(default=False)
+    is_vip = models.BooleanField(default=False)
+    is_supervip = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -76,14 +78,22 @@ class Account(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
-    def get_courses_list(self):
-        jsonDec = json.decoder.JSONDecoder()
-        courses_list = jsonDec.decode(self.courses_list)
-
+    def get_courses_list(self, type):
+        if type == 'running':
+            jsonDec = json.decoder.JSONDecoder()
+            courses_list = jsonDec.decode(self.courses_list)
+        elif type == 'caught':
+            jsonDec = json.decoder.JSONDecoder()
+            courses_list = jsonDec.decode(self.courses_caught_list)
+        elif type == 'failed':
+            jsonDec = json.decoder.JSONDecoder()
+            courses_list = jsonDec.decode(self.courses_failed_list)
         return courses_list
 
+
+        return courses_list
     def add_course(self, class_number):
-        courses_list = self.get_courses_list()
+        courses_list = self.get_courses_list('running')
         courses_list.append(class_number)
         self.courses_list = json.dumps(courses_list)
 
@@ -92,7 +102,7 @@ class Account(AbstractBaseUser):
         self.save()
 
     def remove_course(self, class_number):
-        courses_list = self.get_courses_list()
+        courses_list = self.get_courses_list('running')
         courses_list.remove(class_number)
         self.courses_list = json.dumps(courses_list)
 

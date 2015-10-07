@@ -30,11 +30,11 @@
                                     <form class="form-inline">
                                         <div class="row ">
                                             <div class=" col-md-11 col-md-offset-1 input-group">
-                                                <input disabled placeholder="输入课号" type="text" name="class_number"
+                                                <input disabled placeholder="输入课号(ex: 456321)" type="text" name="class_number"
                                                        id="class_number"
                                                        class="form-control" required>
                                             <span class="input-group-btn">
-                                                <button disabled type="submit" class="btn btn-primary">Submit</button>
+                                                <button disabled type="submit" class="btn btn-primary">提交</button>
                                             </span>
                                             </div>
                                         </div>
@@ -56,11 +56,11 @@
                                         {% csrf_token %}
                                         <div class="row ">
                                             <div class=" col-md-11 col-md-offset-1 input-group">
-                                                <input placeholder="输入课号" type="text" name="class_number"
+                                                <input placeholder="输入课号(ex: 456321)" type="text" name="class_number"
                                                        id="class_number"
                                                        class="form-control" required>
                                             <span class="input-group-btn">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <button type="submit" class="btn btn-primary">提交</button>
                                             </span>
                                             </div>
                                         </div>
@@ -77,10 +77,10 @@
                                     style="border: none"
                                     >+
                             </button>
-                            <h5>可抢课程</h5>
+                            <h5>课程包余额</h5>
                         </div>
                         <div class="ibox-content">
-                            <h1 class="no-margins">{{ user.courses_pack }}</h1>
+                            <h1 class="no-margins">{{ user.courses_pack }}节</h1>
 
                             <div class="stat-percent font-bold text-success"> {{ user.courses_used }} 已使用 <i
                                     class="fa fa-bolt"></i></div>
@@ -95,10 +95,10 @@
                             <button class=" label label-info pull-right" data-toggle="modal" data-target="#myModal"
                                     style="border: none">+
                             </button>
-                            <h5>已抢课程</h5>
+                            <h5>成功抢到</h5>
                         </div>
                         <div class="ibox-content">
-                            <h1 class="no-margins">{{ user.courses_caught }}</h1>
+                            <h1 class="no-margins">{{ user.courses_caught }}节</h1>
 
                             <div class="stat-percent font-bold text-info">{{ runing_count }} 正在进行中 <i class="fa fa-bolt"></i></div>
                             <br/>
@@ -112,7 +112,7 @@
                         </div>
                         <div class="ibox-content">
 
-                            <h1 class="no-margins">{{ runing_count }}</h1>
+                            <h1 class="no-margins">{{ runing_count }}节</h1>
 
                             <div class="stat-percent font-bold text-navy">{{ waiting }} 等待中<i class="fa fa-clock-o"></i>
                             </div>
@@ -132,7 +132,7 @@
                                     <small>Average courses info in : <strong>Penn State ({{ user.campus }})</strong>
                                     </small>
                                     <br/>
-                                    All Courses: 13424
+                                    课程共计: 13424节
                                 </span>
 
                                 <h3 class="font-bold no-margins">
@@ -252,9 +252,9 @@
                         </div>
                         <div class="ibox-content">
 
-                            <div class="table-responsive">
+                            <div class="table-responsive text-center">
                             {% if runing_count == 0 %}
-                                <p> 您还没有开始抢课哦～ </p>
+                                <strong><i class="fa fa-star">还没有在抢课哦～ </i></strong>
                             {% else %}
                                 <table class="table table-striped text-center">
                                     <thead>
@@ -265,7 +265,7 @@
                                         <th class="text-center">课程时间</th>
                                         <th class="text-center">您的排序</th>
                                         <th class="text-center">状态</th>
-                                        <th class="text-center">加速</th>
+                                        <th class="text-center">退订</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -278,12 +278,12 @@
                                             <td>{{ course.order }}</td>
                                             {% if course.running %}
                                                <td><a href="#"><i class="fa fa-bolt"></i></a></td>
-                                                <td>您已在首位</td>
+
                                             {% else %}
-                                                <td><a href="#"><i class="fa text-warning fa-clock-o"></i></a></td>
-                                                <td><button class=" label label-info" data-toggle="modal" data-target="#speedUpModal" style="border: none">一键加速</button></td>
+                                                <td><a href="#"><i class="fa text-navy fa-clock-o"></i></a></td>
+
                                             {% endif %}
-                                            <td><a href="/delcourse/{{ course.number }}/">退订</a></td>
+                                            <td><a href="/delcourse/{{ course.number }}/"><i class="fa text-success fa-trash-o">退订</i></a></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -309,38 +309,30 @@
                         </div>
                         <div class="ibox-content">
 
-                            <div class="table-responsive">
-                            {% if runing_count == 0 %}
-                                <p> 您还没有开始抢课哦～ </p>
+                            <div class="table-responsive text-center">
+                            {% if courses_caught_num == 0 %}
+                                <strong><i class="fa fa-star">还没有历史记录哦～ </i></strong>
                             {% else %}
-                                <table class="table table-striped text-center">
+                                <table class="table table-striped">
                                     <thead>
                                     <tr>
                                         <th class="text-center">#</th>
                                         <th class="text-center">课程代码</th>
                                         <th class="text-center">课程简称</th>
                                         <th class="text-center">课程时间</th>
-                                        <th class="text-center">您的排序</th>
+
                                         <th class="text-center">状态</th>
-                                        <th class="text-center">加速</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for course in courses_info_list %}
+                                    {% for course in courses_caught_list %}
                                         <tr>
                                             <td>{{ forloop.counter }}</td>
                                             <td>{{ course.number }}</td>
                                             <td>{{ course.code }}</td>
                                             <td>{{ course.time }}</td>
-                                            <td>{{ course.order }}</td>
-                                            {% if course.running %}
-                                               <td><a href="#"><i class="fa fa-bolt"></i></a></td>
-                                                <td>您已在首位</td>
-                                            {% else %}
-                                                <td><a href="#"><i class="fa text-warning fa-clock-o"></i></a></td>
-                                                <td><button class=" label label-info" data-toggle="modal" data-target="#speedUpModal" style="border: none">一键加速</button></td>
-                                            {% endif %}
-                                            <td><a href="/delcourse/{{ course.number }}/">退订</a></td>
+
+                                            <td><i class="fa text-navy fa-check-square-o"></i></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -564,7 +556,7 @@
 
 
             var lineData = {
-                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                labels: ["七天前", "六天前", "五天前", "四天前", "三天前", "昨日", "今日"],
                 datasets: [
                     {
                         label: "Example dataset",
@@ -574,7 +566,7 @@
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
                         pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: [65, 59, 40, 51, 36, 25, 40]
+                        data: [0, 0, 0, 0, 0, 0, 54]
                     },
                     {
                         label: "Example dataset",
@@ -584,7 +576,7 @@
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
                         pointHighlightStroke: "rgba(26,179,148,1)",
-                        data: [48, 48, 60, 39, 56, 37, 30]
+                        data: [0, 0, 0, 0, 0, 0, 1]
                     }
                 ]
             };
