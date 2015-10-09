@@ -19,3 +19,8 @@ def c():
             print course.class_number
             course.delete()
 
+def d():
+    for course in Course.objects.all():
+        course.user_list = '[]'
+        course.is_active = False
+        course.save()

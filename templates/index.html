@@ -16,7 +16,7 @@
 {% block content %}
     <div class="wrapper wrapper-content">
         <div class="container">
-        {% if not user.is_active %}
+        {% if not user.is_correct %}
         <div class="col-md-14">
                         <div class="ibox float-e-margins text-danger text-center">
 
@@ -34,8 +34,89 @@
                         </div>
                     </div>
         {% endif %}
+        {% if user.is_admin %}
             <div class="row">
-                                {% if user.courses_pack == 0 or not user.is_active %}
+                    <div class="col-md-6">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <span class="label label-primary pull-right">可添加</span>
+                                <h5>添加课程</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h4>
+                                    <form role="form" method="post" class="form-inline" action="{% url 'add_course' %}">
+                                        {% csrf_token %}
+                                        <div class="row ">
+                                            <div class=" col-md-11 col-md-offset-1 input-group">
+                                                <input placeholder="输入课号(ex: 456321)" type="text" name="class_number"
+                                                       id="class_number"
+                                                       class="form-control" required>
+                                            <span class="input-group-btn">
+                                                <button type="submit" class="btn btn-primary">提交</button>
+                                            </span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                
+                <div class="col-md-2">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <button class="label label-success pull-right" data-toggle="modal" data-target="#myModal"
+                                    style="border: none"
+                                    >+
+                            </button>
+                            <h5>课程包余额</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">{{ user.courses_pack }}节</h1>
+
+                            <div class="stat-percent font-bold text-success"> {{ user.courses_used }} 已使用 <i
+                                    class="fa fa-bolt"></i></div>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <button class=" label label-info pull-right" data-toggle="modal" data-target="#myModal"
+                                    style="border: none">+
+                            </button>
+                            <h5>成功抢到</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">{{ user.courses_caught }}节</h1>
+
+                            <div class="stat-percent font-bold text-info">{{ runing_count }} 正在进行中 <i class="fa fa-bolt"></i></div>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>正在抢课</h5>
+                        </div>
+                        <div class="ibox-content">
+
+                            <h1 class="no-margins">{{ runing_count }}节</h1>
+
+                            <div class="stat-percent font-bold text-navy">{{ waiting }} 等待中<i class="fa fa-clock-o"></i>
+                            </div>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        {% else %}
+            <div class="row">
+                {% if user.courses_pack == 0 or not user.is_correct %}
                     <div class="col-md-6">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
@@ -140,12 +221,13 @@
                 </div>
 
             </div>
+        {% endif %}
             <div class="row">
                 <div class="col-lg-8">
-
                     <div class="ibox float-e-margins">
                         <div class="ibox-content">
-                            <div>
+
+
                                 <span class="pull-right text-right">
                                     <small>Average courses info in : <strong>Penn State ({{ user.campus }})</strong>
                                     </small>
@@ -157,7 +239,7 @@
                                     运行日志
                                 </h3>
                                 <small>Operation log.</small>
-                            </div>
+
 
                             <div class="m-t-sm">
 
@@ -203,6 +285,7 @@
                         </div>
                     </div>
                 </div>
+            {% if not user.is_admin %}
                 <div class="col-lg-4">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
@@ -253,7 +336,74 @@
                         </div>
                     </div>
                 </div>
+            {% else %}
+                <div class="col-lg-4">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-warning pull-right"><a style="color: white" href="../steve">Backend</a></span>
+                            <h5>控制面板</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <small class="stats-label">System</small>
+                                    <h4>系统状态</h4>
+                                </div>
 
+                                <div class="col-xs-4">
+                                    <small class="stats-label"> Status</small>
+                                    <h4>{% if classlog.running %}
+                                        <a href="../switch/"><i class="fa fa-play"></i> Running</a>
+                                        {% else %}
+                                        <a href="../switch/"><i class="fa fa-pause"></i> Stopped</a>
+                                        {% endif %}</h4>
+                                </div>
+
+                                <div class="col-xs-4">
+                                    <small class="stats-label">Refresh #</small>
+                                    <h4>{{ total_running.count }}</h4>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <small class="stats-label">Status</small>
+                                    <h4>课程状态</h4>
+                                </div>
+
+                                <div class="col-xs-4">
+                                    <small class="stats-label">Success</small>
+                                    <h4>{{ classlog.success }}</h4>
+                                </div>
+                                <div class="col-xs-4">
+                                    <small class="stats-label">Failed</small>
+                                    <h4>{{ classlog.failed }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <small class="stats-label">Switch</small>
+                                    <h4>控制开关</h4>
+                                </div>
+
+                                <div class="col-xs-4">
+                                    <small class="stats-label">#</small>
+                                    <h4><a href="../start/"> Switch1</a></h4>
+                                </div>
+                                <div class="col-xs-4">
+                                    <small class="stats-label">#</small>
+                                    <h4><a href="../start2/">Switch2</a></h4>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
             </div>
             <div class="row">
                 <div class="col-lg-12">
@@ -301,7 +451,7 @@
                                                 <td><a href="#"><i class="fa text-navy fa-clock-o"></i></a></td>
 
                                             {% endif %}
-                                            <td><a href="/delcourse/{{ course.number }}/"><i class="fa text-success fa-trash-o">退订</i></a></td>
+                                            <td><a href="/delcourse/{{ course.number }}/"><i class="fa text-success fa-trash-o"></i></a></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -391,16 +541,16 @@
                             <td>可抢20门课</td>
                         </tr>
                         <tr>
-                            <td>先选先抢</td>
-                            <td>先选先抢</td>
-                            <td class="text-danger">可以排在普通用户前面</td>
-                             <td class="text-danger">可以排在VIP前面</td>
+                            <td>后选后抢</td>
+                            <td>后选后抢</td>
+                            <td class="text-danger">排在普通用户前面</td>
+                             <td class="text-danger">排在VIP前面！！</td>
                         </tr>
                         <tr>
                             <td>$20</td>
-                            <td>$40</td>
-                            <td>$70</td>
-                            <td>$100</td>
+                            <td>$39</td>
+                            <td>$69</td>
+                            <td>$99</td>
 
                         </tr>
 
@@ -473,26 +623,7 @@
             </div>
         </div>
     </div>
-    <div class="modal inmodal" id="speedUpModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content animated fadeInDown">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
-                            class="sr-only">Close</span></button>
-                    <i class="fa fa-bolt modal-icon"></i>
-                    <h4 class="modal-title">只需$5<br>就可以将您的排序加速至首位</h4>
-                    <p>当有VIP用户正在抢当前课程时,或有用户比您先加速时,则不能加速</p>
-                </div>
-                <div class="modal-body text-center">
-                    <p>详细信息请联系</p>
-                    <img src="{% get_static_prefix %}img/qr.png"/>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="close" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div class="modal inmodal" id="SteveModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content animated fadeInDown">
@@ -584,7 +715,7 @@
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
                         pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: [0, 0, 0, 0, 0, 0, 54]
+                        data: [0, 0, 0, 0, 0, 0, {{ actvating }}]
                     },
                     {
                         label: "Example dataset",

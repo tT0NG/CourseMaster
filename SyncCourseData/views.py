@@ -9,12 +9,12 @@ from .catchcourse import add_class, add_class2
 def StartSyncView(request):
     if request.user.is_admin:
         while ClassLog.objects.get(id=1).running:
-            print 'here'
             c = RunningCount.objects.get(id=1)
             add_class()
             c.count += 1
             c.save()
-            time.sleep(0.1)
+            print 'SyncView1 is Running' + str(c.count)
+            time.sleep(5)
         else:
             return HttpResponseRedirect('/index/')
     else:
@@ -23,12 +23,12 @@ def StartSyncView(request):
 def StartSyncView2(request):
     if request.user.is_admin:
         while ClassLog.objects.get(id=1).running:
-            print 'here22'
             c = RunningCount.objects.get(id=1)
             add_class2()
             c.count += 1
             c.save()
-            time.sleep(0.1)
+            print 'SyncView2 is Running' + str(c.count)
+            time.sleep(5)
         else:
             return HttpResponseRedirect('/index/')
     else:
@@ -39,7 +39,7 @@ def SwitchView(request):
         c = ClassLog.objects.get(id=1)
         c.running = not c.running
         c.save()
-        return HttpResponse(c.running)
+        return HttpResponseRedirect('/index/')
     else:
         return HttpResponseRedirect('/login/')
 

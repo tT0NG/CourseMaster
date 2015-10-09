@@ -6,7 +6,7 @@ class CourseAdmin(admin.ModelAdmin):
     list_display = ('class_number', 'class_title', 'class_code', 'is_active')
     list_filter = ('class_title', 'is_active')
     search_fields = ('class_number',)
-    ordering = ('class_title',)
+    ordering = ('-is_active',)
     filter_horizontal = ()
 
 

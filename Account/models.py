@@ -59,7 +59,7 @@ class Account(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     is_vip = models.BooleanField(default=False)
     is_supervip = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
+    is_correct = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

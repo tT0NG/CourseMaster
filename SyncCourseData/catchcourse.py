@@ -1,6 +1,7 @@
 # coding=utf-8
 import mechanize
 import cookielib
+from SendEmail.views import email_sender
 
 from .models import Course, ClassLog
 
@@ -60,18 +61,24 @@ def sync_class(activating_class_number_list):
                 # if it has opening seats
                 if class_number_and_seats[1] != '0':
                     # catch it
-                    user = Course.objects.get(class_number=class_number_and_seats[0]).get_first_user()
+                    cathing_course = Course.objects.get(class_number=class_number_and_seats[0])
+                    user = cathing_course.get_first_user()
                     if submitClass(user.psu_account, user.psu_password, class_number_and_seats[0]):
                         user.caught_course(class_number_and_seats[0])
-                        Course.objects.get(class_number=class_number_and_seats[0]).remove_user(user.username)
-                    elif user.courses_failed >= 5:
-                        for course_num in user.get_courses_list('running'):
-                            Course.objects.get(class_number=course_num).remove_user(user.username)
-                        user.courses_list = '[]'
-                        # TODO: notice the user that he is bing inactivated
+                        cathing_course.remove_user(user.username)
+                        # send email
+                        email_sender(user, cathing_course)
+                    else:
+                        user.courses_failed += 1
+                        if user.courses_failed >= 5:
+                            print 'inside the loop'
+                            for course_num in user.get_courses_list('running'):
+                                Course.objects.get(class_number=course_num).remove_user(user.username)
+                            user.courses_list = '[]'
+                            user.is_correct = False
+                            user.courses_pack += (user.courses_used - user.courses_caught)
+                            user.courses_used = user.courses_caught
                         user.save()
-
-
     # close browser
     br.close()
 
