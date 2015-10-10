@@ -67,7 +67,10 @@ def sync_class(activating_class_number_list):
                         user.caught_course(class_number_and_seats[0])
                         cathing_course.remove_user(user.username)
                         # send email
-                        email_sender(user, cathing_course)
+                        try:
+                            email_sender(user, cathing_course)
+                        except:
+                            pass
                     else:
                         user.courses_failed += 1
                         user.add_course_failed(class_number_and_seats[0])
@@ -75,7 +78,10 @@ def sync_class(activating_class_number_list):
                             for course_num in user.get_courses_list('running'):
                                 user.remove_course(course_num)
                             user.is_correct = False
-                            email_sender_fail(user)
+                            try:
+                                email_sender_fail(user)
+                            except:
+                                pass
                         user.save()
 
     # close browser
