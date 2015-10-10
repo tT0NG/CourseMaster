@@ -82,6 +82,8 @@ class Course(models.Model):
         if super_vip_list:
             first_user = super_vip_list[0]
 
+        if first_user == None:
+            return False
         return Account.objects.get(username=first_user)
 
     def get_user_index(self, usrname):

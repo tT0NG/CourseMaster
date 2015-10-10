@@ -102,6 +102,18 @@ class Account(AbstractBaseUser):
         self.courses_used += 1
         self.save()
 
+    def add_course_caught(self, class_number):
+        caught_list = self.get_courses_list('caught')
+        caught_list.append(class_number)
+        self.courses_caught_list = json.dumps(caught_list)
+        self.save()
+
+    def add_course_failed(self, class_number):
+        courses_list = self.get_courses_list('failed')
+        courses_list.append(class_number)
+        self.courses_list = json.dumps(courses_list)
+        self.save()
+
     def remove_course(self, class_number):
         courses_list = self.get_courses_list('running')
         courses_list.remove(class_number)
@@ -111,12 +123,7 @@ class Account(AbstractBaseUser):
         self.courses_used -= 1
         self.save()
 
-    def add_course_caught(self, class_number):
-        jsonDec = json.decoder.JSONDecoder()
-        caught_list = jsonDec.decode(self.courses_caught_list)
-        caught_list.append(class_number)
-        self.courses_caught_list = json.dumps(caught_list)
-        self.save()
+
 
     @property
     def is_staff(self):

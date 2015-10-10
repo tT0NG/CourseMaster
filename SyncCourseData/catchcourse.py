@@ -1,7 +1,7 @@
 # coding=utf-8
 import mechanize
 import cookielib
-from SendEmail.views import email_sender
+from sendemail import email_sender, email_sender_fail
 
 from .models import Course, ClassLog
 
@@ -70,15 +70,14 @@ def sync_class(activating_class_number_list):
                         email_sender(user, cathing_course)
                     else:
                         user.courses_failed += 1
+                        user.add_course_failed(class_number_and_seats[0])
                         if user.courses_failed >= 5:
-                            print 'inside the loop'
                             for course_num in user.get_courses_list('running'):
-                                Course.objects.get(class_number=course_num).remove_user(user.username)
-                            user.courses_list = '[]'
+                                user.remove_course(course_num)
                             user.is_correct = False
-                            user.courses_pack += (user.courses_used - user.courses_caught)
-                            user.courses_used = user.courses_caught
+                            email_sender_fail(user)
                         user.save()
+
     # close browser
     br.close()
 
@@ -116,7 +115,7 @@ def submitClass(usrname, password, sectionNubmer):
         for f in br.form.controls:
             list.append(f.name)
         radioID = list[1]
-        br[radioID] = ['1 @ 1']
+        br[radioID] = ['radio1 @ 2']
         br.submit()
 
         # 页面有语法错误，更正
@@ -188,7 +187,7 @@ def submitClass(usrname, password, sectionNubmer):
                 ClassLog.objects.get(id=1).add_failed_course(sectionNubmer)
                 return False
 
-        elif br.response().read().find('wish to schedule any of the other available sections') != -1:
+        elif br.response().read().find('other available sections') != -1:
             ClassLog.objects.get(id=1).add_failed_course(sectionNubmer)
             return False
 

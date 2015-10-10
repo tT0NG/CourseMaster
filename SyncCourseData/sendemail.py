@@ -1,22 +1,10 @@
+# coding=utf-8
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 
-def email_sender_view(request):
-    subject = 'test'
-    to = ['steveleelx@gmail.com']
-    from_email = 'psuclass-notice@psuclass.com'
 
-    ctx = {
-        'user': 'steve',
-    }
-
-    message = render_to_string('email_templates/alert.html', ctx)
-    print 'before send'
-    send_mail(subject, '', from_email, to, fail_silently=False, html_message=message)
-    return
-
-def email_sender(request, user, course):
-    subject = 'test'
+def email_sender(user, course):
+    subject = '抢课神器通知'
     to = [user.email]
     from_email = 'psuclass-notice@psuclass.com'
 
@@ -29,8 +17,9 @@ def email_sender(request, user, course):
     message = render_to_string('email_templates/alert.html', ctx)
     send_mail(subject, '', from_email, to, fail_silently=False, html_message=message)
 
-def email_sender_fail(request, user):
-    subject = 'test'
+
+def email_sender_fail(user):
+    subject = '抢课神器通知'
     to = [user.email]
     from_email = 'psuclass-notice@psuclass.com'
 

@@ -2,6 +2,7 @@
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
+import json
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib import messages
@@ -49,7 +50,22 @@ def IndexView(request):
             courses_caught_list.append(course_dic)
         courses_caught_num = len(courses_caught_list)
 
-
+        courses_failed_list = []
+        if request.user.is_admin:
+            courses = json.decoder.JSONDecoder().decode(classlog.failedcourse)
+            counter = 1
+            for course in courses:
+                if counter <= 20:
+                    this_course = Course.objects.get(class_number=course)
+                    user = this_course.get_first_user()
+                    if user:
+                        course_dic = dict([('number', course), ('code', this_course.class_title + ' ' + this_course.class_code),
+                                      ('user', user.username), ('userID', user.id), ('is_active', this_course.is_active), ('classID', this_course.id)])
+                    else:
+                        course_dic = dict([('number', course), ('code', this_course.class_title + ' ' + this_course.class_code),
+                                      ('user', 'None'), ('userID', ''), ('is_active', this_course.is_active), ('classID', this_course.id)])
+                    courses_failed_list.append(course_dic)
+                counter += 1
 
         if request.user.is_vip:
             messages.add_message(request, messages.INFO, "toastr.warning('"+request.user.username+"出现了！','看！吊炸天的VIP！');")
@@ -60,7 +76,7 @@ def IndexView(request):
             return render(request, 'index.html',
                           {'courses_info_list': courses_info_list, 'courses_caught_list': courses_caught_list, 'runing_count': running_count,
                            'waiting': waiting, 'course_caught': course_caught_total, 'actvating': actvating, 'courses_caught_num': courses_caught_num,
-                           'classlog': classlog, 'total_running':total_running})
+                           'classlog': classlog, 'total_running':total_running, 'courses_failed_list':courses_failed_list})
         else:
             messages.add_message(request, messages.INFO, "toastr.success('欢迎来到Class Gotcha+','Welcome!');")
             return render(request, 'index.html',
