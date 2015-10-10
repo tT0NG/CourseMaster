@@ -11,7 +11,7 @@ def sync_class(class_title, class_code, class_number):
     br.form = res[1]
     br['crseName'] = class_title
     br['crseNum'] = class_code
-    br['semester'] = 'FALL 2015'
+    br['semester'] = 'SPRING 2016'
     br['location'] = 'UP'
     br['CEcrseloc'] = 'UP'
     br.submit()

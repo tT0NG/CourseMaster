@@ -76,6 +76,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'CourseMaster.wsgi.application'
 
+# Email Settings
+EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+EMAIL_HOST = 'email-smtp.us-east-1.amazonaws.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'AKIAIY2FTDFI5JM3WUSA'
+EMAIL_HOST_PASSWORD = 'AnJw/Falcd2wuqzxF4ySMY/9+T6c/zmz9kLVyvl8A7xR'
+EMAIL_USE_TLS = True
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
@@ -105,7 +112,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_ROOT = "/Users/stevelee/CourseMaster/static/"
+STATIC_ROOT = "/Users/steveleelx/CodeRepository/CourseMaster_env/CourseMaster/static/"
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'

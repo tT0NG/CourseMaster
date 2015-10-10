@@ -1,29 +1,85 @@
 # coding=utf-8
 import mechanize
 import cookielib
+from sendemail import email_sender, email_sender_fail
 
-from .models import Course
-from .syncclass import sync_class
+from .models import Course, ClassLog
+
+
 
 def add_class():
+    course_number_list = []
     activated_class_list = Course.objects.filter(is_active=True)
-    print activated_class_list
     for course in activated_class_list:
-        if sync_class(course.class_title, course.class_code, course.class_number):
-            user = course.get_first_user()
-            try:
-                if submitClass(user.psu_account, user.psu_password, course.class_number):
-                    # success
-                    user.courses_caught += 1
-                    course.remove_user(user.username)
-                    user.save()
+        course_number_list.append(course.class_number)
 
-                else:
-                    # unsuccessful
-                    user.courses_pack += 1
-                    user.save()
-            except:
-                pass
+    A = course_number_list[:len(course_number_list)/2]
+    sync_class(A)
+
+def add_class2():
+    course_number_list = []
+    activated_class_list = Course.objects.filter(is_active=True)
+    for course in activated_class_list:
+        course_number_list.append(course.class_number)
+
+    B = course_number_list[len(course_number_list)/2:]
+    sync_class(B)
+
+def sync_class(activating_class_number_list):
+    # init the browser
+    br = mechanize.Browser()
+    br.addheaders = [('User-agent',
+                      'Mozilla/5.0 (Windows NT 6.0) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1')]
+    # when activating courses list has at least one element
+    while activating_class_number_list:
+        # let the first element in list be the current course
+        current_course = Course.objects.get(class_number=activating_class_number_list[0])
+        # open schedule website
+        br.open("http://schedule.psu.edu/act_advanced_search_get_seats.cfm")
+        # create form
+        FORM_HTML = '<form method="post"><input name="crseName" id="crseName"><input name="crseNum" id="crseNum"><input name="semester" id="semester"><input name="location" id="location"><input name="CEcrseloc" id="CEcrseloc"></form>'
+        res = mechanize._form.ParseString(FORM_HTML, "http://schedule.psu.edu/act_advanced_search_get_seats.cfm")
+        #select form & put in necessary values
+        br.form = res[1]
+        br['crseName'] = current_course.class_title
+        br['crseNum'] = current_course.class_code
+        br['semester'] = 'SPRING 2016'
+        br['location'] = 'UP'
+        br['CEcrseloc'] = 'UP'
+        # submit
+        br.submit()
+        # get returned course list
+        course_list = br.response().read().split('!')[1::2]
+        # for every course in returned course list
+        for course in course_list:
+            # split to class number and remaining seats
+            class_number_and_seats = course.split(';')
+            # if the class number is in activating courses list
+            if class_number_and_seats[0] in activating_class_number_list:
+                # remove it
+                activating_class_number_list.remove(class_number_and_seats[0])
+                # if it has opening seats
+                if class_number_and_seats[1] != '0':
+                    # catch it
+                    cathing_course = Course.objects.get(class_number=class_number_and_seats[0])
+                    user = cathing_course.get_first_user()
+                    if submitClass(user.psu_account, user.psu_password, class_number_and_seats[0]):
+                        user.caught_course(class_number_and_seats[0])
+                        cathing_course.remove_user(user.username)
+                        # send email
+                        email_sender(user, cathing_course)
+                    else:
+                        user.courses_failed += 1
+                        user.add_course_failed(class_number_and_seats[0])
+                        if user.courses_failed >= 5:
+                            for course_num in user.get_courses_list('running'):
+                                user.remove_course(course_num)
+                            user.is_correct = False
+                            email_sender_fail(user)
+                        user.save()
+
+    # close browser
+    br.close()
 
 
 def submitClass(usrname, password, sectionNubmer):
@@ -59,7 +115,7 @@ def submitClass(usrname, password, sectionNubmer):
         for f in br.form.controls:
             list.append(f.name)
         radioID = list[1]
-        br[radioID] = ['1 @ 2']
+        br[radioID] = ['radio1 @ 2']
         br.submit()
 
         # 页面有语法错误，更正
@@ -110,11 +166,10 @@ def submitClass(usrname, password, sectionNubmer):
             br.set_response(response)
 
             if br.response().read().find('success') != -1:
-                print 'Add class ' + sectionNubmer + ' successfully'
+                ClassLog.objects.get(id=1).add_catched_course(sectionNubmer)
                 return True
             else:
-
-                print 'Section fulled, failed to add class' + sectionNubmer + "\n"
+                ClassLog.objects.get(id=1).add_failed_course(sectionNubmer)
                 return False
 
         elif br.response().read().find('You have a duplicate course request') != -1:
@@ -126,25 +181,25 @@ def submitClass(usrname, password, sectionNubmer):
             br[radioID] = ['N']
             br.submit()
             if br.response().read().find('success') != -1:
-                print 'Add class ' + sectionNubmer + ' successfully'
+                ClassLog.objects.get(id=1).add_catched_course(sectionNubmer)
                 return True
             else:
-                print 'Section fulled, failed to add class' + sectionNubmer + "\n"
+                ClassLog.objects.get(id=1).add_failed_course(sectionNubmer)
                 return False
 
-        elif br.response().read().find('wish to schedule any of the other available sections') != -1:
-            print 'Section fulled, failed to add class' + sectionNubmer + "\n"
+        elif br.response().read().find('other available sections') != -1:
+            ClassLog.objects.get(id=1).add_failed_course(sectionNubmer)
             return False
 
         else:
             if br.response().read().find('success') != -1:
-                print 'Add class ' + sectionNubmer + ' successfully'
+                ClassLog.objects.get(id=1).add_catched_course(sectionNubmer)
                 return True
             else:
-                print 'Section fulled, failed to add class' + sectionNubmer + "\n"
+                ClassLog.objects.get(id=1).add_failed_course(sectionNubmer)
                 return False
 
     except:
-        print 'An unexpected error occured, please connect psuclassgotcha@gmail.com\n'
+        ClassLog.objects.get(id=1).add_failed_course(sectionNubmer)
         print br.response().read()
         return False

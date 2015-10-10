@@ -57,9 +57,17 @@ docs/_build/
 target/
 .DS_Store
 .idea
+<<<<<<< HEAD
+=======
+.pyc
+>>>>>>> develop
 __init__.pyc
 admin.pyc
 0001_initial.pyc
 models.pyc
+<<<<<<< HEAD
 settings.pyc
 wsgi.pyc
+=======
+syncclass.pyc
+>>>>>>> develop

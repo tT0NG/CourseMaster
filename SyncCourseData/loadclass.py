@@ -3,7 +3,7 @@ import json
 import re
 
 def load_class():
-    json_data = open('course3.json').read()
+    json_data = open('classes_up.json').read()
     data = json.loads(json_data)
 
     for token in data:

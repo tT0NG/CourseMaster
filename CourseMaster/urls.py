@@ -21,6 +21,7 @@ from . import views
 from Account import views as Account_views
 from AddCourse import views as AddCourse_views
 from SyncCourseData import views as Sync_Views
+from SendEmail import views as Email_VIews
 
 urlpatterns = [
     url(r'^$', views.PandingView, name='landing'),
@@ -37,7 +38,10 @@ urlpatterns = [
     url(r'^setpsu/$', Account_views.AddPsuInfoView, name='setpsu'),
 
     url(r'^start/$', Sync_Views.StartSyncView, name='start'),
+    url(r'^start2/$', Sync_Views.StartSyncView2),
     url(r'^switch/$', Sync_Views.SwitchView, name='switch'),
+
+    url(r'^sendemail/$', Email_VIews.email_sender_view),
 
     url(r'^steve/', include(admin.site.urls)),
 ]

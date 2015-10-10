@@ -50,11 +50,16 @@ class Account(AbstractBaseUser):
     courses_pack = models.IntegerField(default=0)
     courses_caught = models.IntegerField(default=0)
     courses_used = models.IntegerField(default=0)
+    courses_failed = models.IntegerField(default=0)
     courses_list = models.TextField(default='[]')
     courses_caught_list = models.TextField(default='[]')
+    courses_failed_list = models.TextField(default='[]')
+
 
     is_admin = models.BooleanField(default=False)
-    is_premium = models.BooleanField(default=False)
+    is_vip = models.BooleanField(default=False)
+    is_supervip = models.BooleanField(default=False)
+    is_correct = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -76,14 +81,20 @@ class Account(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
-    def get_courses_list(self):
-        jsonDec = json.decoder.JSONDecoder()
-        courses_list = jsonDec.decode(self.courses_list)
-
+    def get_courses_list(self, type):
+        if type == 'running':
+            jsonDec = json.decoder.JSONDecoder()
+            courses_list = jsonDec.decode(self.courses_list)
+        elif type == 'caught':
+            jsonDec = json.decoder.JSONDecoder()
+            courses_list = jsonDec.decode(self.courses_caught_list)
+        elif type == 'failed':
+            jsonDec = json.decoder.JSONDecoder()
+            courses_list = jsonDec.decode(self.courses_failed_list)
         return courses_list
 
     def add_course(self, class_number):
-        courses_list = self.get_courses_list()
+        courses_list = self.get_courses_list('running')
         courses_list.append(class_number)
         self.courses_list = json.dumps(courses_list)
 
@@ -91,8 +102,20 @@ class Account(AbstractBaseUser):
         self.courses_used += 1
         self.save()
 
+    def add_course_caught(self, class_number):
+        caught_list = self.get_courses_list('caught')
+        caught_list.append(class_number)
+        self.courses_caught_list = json.dumps(caught_list)
+        self.save()
+
+    def add_course_failed(self, class_number):
+        courses_list = self.get_courses_list('failed')
+        courses_list.append(class_number)
+        self.courses_list = json.dumps(courses_list)
+        self.save()
+
     def remove_course(self, class_number):
-        courses_list = self.get_courses_list()
+        courses_list = self.get_courses_list('running')
         courses_list.remove(class_number)
         self.courses_list = json.dumps(courses_list)
 
@@ -100,12 +123,7 @@ class Account(AbstractBaseUser):
         self.courses_used -= 1
         self.save()
 
-    def add_course_caught(self, class_number):
-        jsonDec = json.decoder.JSONDecoder()
-        caught_list = jsonDec.decode(self.courses_caught_list)
-        caught_list.append(class_number)
-        self.courses_caught_list = json.dumps(caught_list)
-        self.save()
+
 
     @property
     def is_staff(self):

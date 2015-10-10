@@ -19,11 +19,10 @@ def LoginView(request):
             if form.is_valid():
                 user = authenticate(email=request.POST['username'], password=request.POST['password'])
                 if user is not None:
-                    if user.is_active:
-                        auth_login(request, user)
-                        if user.psu_is_set:
-                             messages.add_message(request, messages.INFO, "toastr.success('欢迎回到Class Gotcha+','Welcome back!');")
-                        return HttpResponseRedirect('/index/')
+                    auth_login(request, user)
+                    if user.psu_is_set:
+                        messages.add_message(request, messages.INFO, "toastr.success('欢迎回到Class Gotcha+','Welcome back!');")
+                    return HttpResponseRedirect('/index/')
         else:
             form = AuthenticationForm()
         return render(request, 'login.html', {'form': form})
@@ -60,9 +59,12 @@ def AddPsuInfoView(request):
             try:
                 request.user.psu_account = request.POST['psuAccount']
             except:
-                print ''
+                pass
             request.user.psu_password = request.POST['psuPass']
             request.user.psu_is_set = True
+            if not request.user.is_correct:
+                request.user.is_correct = True
+                request.user.courses_failed = 0
             request.user.save()
             return HttpResponseRedirect('/index/')
 
