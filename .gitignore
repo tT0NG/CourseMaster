@@ -64,3 +64,5 @@ admin.pyc
 models.pyc
 syncclass.pyc
 settings.pyc
+urls.pyc
+views.pyc

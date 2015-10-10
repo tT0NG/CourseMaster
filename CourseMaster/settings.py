@@ -25,7 +25,7 @@ SECRET_KEY = 'r@fp^q^z%-0s*h=&szgrw6ve9^2%d+($q&a2m9&@ijflhnd&qr'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['54.236.64.75', 'psuclass.com', 'www.psuclass.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -112,7 +112,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_ROOT = "/Users/steveleelx/CodeRepository/CourseMaster_env/CourseMaster/static/"
+STATIC_ROOT = "/env-psuclass/CourseMaster/static/"
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
