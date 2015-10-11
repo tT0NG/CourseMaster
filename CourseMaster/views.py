@@ -43,7 +43,7 @@ def IndexView(request):
 
         courses = request.user.get_courses_list('caught')
         courses_caught_list = []
-        for course in courses:
+        for course in reversed(courses):
             this_course = Course.objects.get(class_number=course)
             course_dic = dict([('number', course), ('code', this_course.class_title + ' ' + this_course.class_code),
                             ('time', this_course.class_time)])
@@ -54,7 +54,7 @@ def IndexView(request):
         if request.user.is_admin:
             courses = json.decoder.JSONDecoder().decode(classlog.failedcourse)
             counter = 1
-            for course in courses:
+            for course in reversed(courses):
                 if counter <= 20:
                     this_course = Course.objects.get(class_number=course)
                     user = this_course.get_first_user()

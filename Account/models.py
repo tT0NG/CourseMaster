@@ -81,16 +81,17 @@ class Account(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
-    def get_courses_list(self, type):
-        if type == 'running':
-            jsonDec = json.decoder.JSONDecoder()
+    def get_courses_list(self, kind):
+        jsonDec = json.decoder.JSONDecoder()
+
+        if kind == 'running':
             courses_list = jsonDec.decode(self.courses_list)
-        elif type == 'caught':
-            jsonDec = json.decoder.JSONDecoder()
+        elif kind == 'caught':
             courses_list = jsonDec.decode(self.courses_caught_list)
-        elif type == 'failed':
-            jsonDec = json.decoder.JSONDecoder()
+        elif kind == 'failed':
             courses_list = jsonDec.decode(self.courses_failed_list)
+        else:
+            courses_list = []
         return courses_list
 
     def add_course(self, class_number):
@@ -111,12 +112,14 @@ class Account(AbstractBaseUser):
     def add_course_failed(self, class_number):
         courses_list = self.get_courses_list('failed')
         courses_list.append(class_number)
-        self.courses_list = json.dumps(courses_list)
+        self.courses_failed += 1
+        self.courses_failed_list = json.dumps(courses_list)
         self.save()
 
     def remove_course(self, class_number):
         courses_list = self.get_courses_list('running')
         courses_list.remove(class_number)
+        
         self.courses_list = json.dumps(courses_list)
 
         self.courses_pack += 1
