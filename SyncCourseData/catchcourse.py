@@ -73,19 +73,18 @@ def sync_class(activating_class_number_list):
                             pass
                     else:
                         user.add_course_failed(class_number_and_seats[0])
-                        if user.courses_failed > 5:
-                            if user.is_correct:
-                                user.is_correct = False
-                                for course_num in user.get_courses_list('running'):
-                                    user.remove_course(course_num)
-                                    course = Course.objects.get(class_number=course_num)
-                                    course.remove_user(user.username)
-                                    course.save()
-                                user.save()
-                                try:
-                                    email_sender_fail(user)
-                                except:
-                                    pass
+                        if user.courses_failed > 5 and user.is_correct:
+                            user.is_correct = False
+                            for course_num in user.get_courses_list('running'):
+                                user.remove_course(course_num)
+                                course = Course.objects.get(class_number=course_num)
+                                course.remove_user(user.username)
+                                course.save()
+                            user.save()
+                            try:
+                                email_sender_fail(user)
+                            except:
+                                pass
 
     # close browser
     br.close()
