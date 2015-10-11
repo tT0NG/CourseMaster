@@ -64,19 +64,27 @@ def sync_class(activating_class_number_list):
                     cathing_course = Course.objects.get(class_number=class_number_and_seats[0])
                     user = cathing_course.get_first_user()
                     if submitClass(user.psu_account, user.psu_password, class_number_and_seats[0]):
-                        user.caught_course(class_number_and_seats[0])
+                        user.add_course_caught(class_number_and_seats[0])
                         cathing_course.remove_user(user.username)
                         # send email
-                        email_sender(user, cathing_course)
+                        try:
+                            email_sender(user, cathing_course)
+                        except:
+                            pass
                     else:
-                        user.courses_failed += 1
                         user.add_course_failed(class_number_and_seats[0])
-                        if user.courses_failed >= 5:
+                        if user.courses_failed > 5:
                             for course_num in user.get_courses_list('running'):
                                 user.remove_course(course_num)
+                                course = Course.objects.get(class_number=course_num)
+                                course.remove_user(user.username)
+                                course.save()
                             user.is_correct = False
-                            email_sender_fail(user)
-                        user.save()
+                            user.save()
+                            try:
+                                email_sender_fail(user)
+                            except:
+                                pass
 
     # close browser
     br.close()
@@ -115,7 +123,7 @@ def submitClass(usrname, password, sectionNubmer):
         for f in br.form.controls:
             list.append(f.name)
         radioID = list[1]
-        br[radioID] = ['radio1 @ 2']
+        br[radioID] = ['1 @ 2']
         br.submit()
 
         # 页面有语法错误，更正
