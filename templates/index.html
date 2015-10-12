@@ -340,8 +340,8 @@
                 <div class="col-lg-4">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <span class="label label-warning pull-right"><a style="color: white" href="../steve">Backend</a></span>
-                            <h5>控制面板</h5>
+                            <span class="label label-warning pull-right">Backend</span>
+                            <a href="../steve"><h5>控制面板</h5></a>
                         </div>
                         <div class="ibox-content">
                             <div class="row">
@@ -405,6 +405,50 @@
                 </div>
             {% endif %}
             </div>
+        {% if not user.is_correct %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>失败记录</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="table-responsive text-center">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">课程代码</th>
+                                        <th class="text-center">课程简称</th>
+                                        <th class="text-center">课程时间</th>
+                                        <th class="text-center">状态</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for course in courses_failed_list %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ course.number }}</td>
+                                            <td>{{ course.code }}</td>
+                                            <td>{{ course.time }}</td>
+
+                                            <td>
+                                                <i class="fa text-danger fa-minus-square-o"></i>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
@@ -491,7 +535,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for course in courses_failed_list %}
+                                    {% for course in total_failed_list %}
                                         <tr>
                                             <td>{{ forloop.counter }}</td>
                                             <td>{{ course.number }}</td>
@@ -526,7 +570,7 @@
                         <div class="ibox-content">
 
                             <div class="table-responsive text-center">
-                            {% if courses_caught_num == 0 %}
+                            {% if not courses_caught_list %}
                                 <strong><i class="fa fa-star">还没有历史记录哦～ </i></strong>
                             {% else %}
                                 <table class="table table-striped">
@@ -548,7 +592,9 @@
                                             <td>{{ course.code }}</td>
                                             <td>{{ course.time }}</td>
 
-                                            <td><i class="fa text-navy fa-check-square-o"></i></td>
+                                            <td>
+                                                <i class="fa text-navy fa-check-square-o"></i>
+                                            </td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -763,7 +809,7 @@
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
                         pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: [0, 0, 0, 0, 0, 8, {{ actvating }}]
+                        data: [0, 0, 0, 8, 21, 24, {{ actvating }}]
                     },
                     {
                         label: "Example dataset",
@@ -773,7 +819,7 @@
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
                         pointHighlightStroke: "rgba(26,179,148,1)",
-                        data: [0, 0, 0, 0, 0, 0, {{ classlog.success }}]
+                        data: [0, 0, 0, 0, 0, 1, {{ classlog.success }}]
                     }
                 ]
             };
