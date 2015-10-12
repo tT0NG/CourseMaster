@@ -75,6 +75,7 @@ def sync_class(activating_class_number_list):
                         user.add_course_failed(class_number_and_seats[0])
                         if user.courses_failed > 5 and user.is_correct:
                             user.is_correct = False
+                            user.save()
                             for course_num in user.get_courses_list('running'):
                                 user.remove_course(course_num)
                                 course = Course.objects.get(class_number=course_num)
