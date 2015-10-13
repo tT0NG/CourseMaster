@@ -78,7 +78,7 @@ def IndexView(request):
                     user = this_course.get_first_user()
                     if user:
                         username = user.username
-                        userID =user.id
+                        userID = user.id
                     else:
                         userID = username = None
 

@@ -66,3 +66,4 @@ syncclass.pyc
 settings.pyc
 urls.pyc
 views.pyc
+db.sqlite3
