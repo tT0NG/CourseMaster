@@ -110,6 +110,7 @@ class Account(AbstractBaseUser):
         courses_list = self.get_courses_list('running')
         courses_list.remove(class_number)
         self.courses_list = json.dumps(courses_list)
+        self.courses_caught += 1
         self.save()
 
     def add_course_failed(self, class_number):
