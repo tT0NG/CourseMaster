@@ -14,7 +14,7 @@ def StartSyncView(request):
             c.count += 1
             c.save()
             print 'SyncView1 is Running' + str(c.count)
-            time.sleep(5)
+            time.sleep(2)
         else:
             return HttpResponseRedirect('/index/')
     else:
@@ -28,7 +28,7 @@ def StartSyncView2(request):
             c.count += 1
             c.save()
             print 'SyncView2 is Running' + str(c.count)
-            time.sleep(5)
+            time.sleep(2)
         else:
             return HttpResponseRedirect('/index/')
     else:
