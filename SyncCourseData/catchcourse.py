@@ -14,6 +14,7 @@ def add_class():
         course_number_list.append(course.class_number)
 
     A = course_number_list[:len(course_number_list)/2]
+    print A
     sync_class(A)
 
 def add_class2():
@@ -23,6 +24,7 @@ def add_class2():
         course_number_list.append(course.class_number)
 
     B = course_number_list[len(course_number_list)/2:]
+    print B
     sync_class(B)
 
 def sync_class(activating_class_number_list):
