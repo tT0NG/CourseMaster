@@ -30,7 +30,7 @@ class Course(models.Model):
         elif this_account.is_supervip:
             supervip_list = self.get_user_list('supervip')
             supervip_list.append(usrname)
-            self.supervip_list = json.dumps(supervip_list)
+            self.super_vip_list = json.dumps(supervip_list)
             self.is_active = True
             self.save()
         else:
