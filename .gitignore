@@ -57,13 +57,7 @@ docs/_build/
 target/
 .DS_Store
 .idea
-.pyc
-__init__.pyc
-admin.pyc
-0001_initial.pyc
-models.pyc
-syncclass.pyc
-settings.pyc
-urls.pyc
-views.pyc
+*.pyc
+mysite.nginx.conf
+mysite_uwsgi.conf
 db.sqlite3

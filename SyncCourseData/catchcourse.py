@@ -35,8 +35,7 @@ def sync_class(activating_class_number_list):
     br.addheaders = [('User-agent',
                       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36')]
     # when activating courses list has at least one element
-    while activating_class_number_list:
-        print activating_class_number_list
+    while activating_class_number_list and ClassLog.objects.get(id=1).running:
         # let the first element in list be the current course
         current_course = Course.objects.get(class_number=activating_class_number_list[0])
         # open schedule website
@@ -53,7 +52,6 @@ def sync_class(activating_class_number_list):
         br['CEcrseloc'] = 'UP'
         # submit
         br.submit()
-        print br.response().read()
         c = RunningCount.objects.get(id=1)
         c.count += 1
         c.save()
