@@ -1,9 +1,11 @@
 # coding=utf-8
 import mechanize
 import cookielib
+import time
+
 from sendemail import email_sender, email_sender_fail
 
-from .models import Course, ClassLog
+from .models import Course, ClassLog, RunningCount
 
 
 
@@ -31,9 +33,10 @@ def sync_class(activating_class_number_list):
     # init the browser
     br = mechanize.Browser()
     br.addheaders = [('User-agent',
-                      'Mozilla/5.0 (Windows NT 6.0) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1')]
+                      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36')]
     # when activating courses list has at least one element
     while activating_class_number_list:
+        print activating_class_number_list
         # let the first element in list be the current course
         current_course = Course.objects.get(class_number=activating_class_number_list[0])
         # open schedule website
@@ -50,12 +53,18 @@ def sync_class(activating_class_number_list):
         br['CEcrseloc'] = 'UP'
         # submit
         br.submit()
+        print br.response().read()
+        c = RunningCount.objects.get(id=1)
+        c.count += 1
+        c.save()
+        time.sleep(5)
         # get returned course list
         course_list = br.response().read().split('!')[1::2]
         # for every course in returned course list
         for course in course_list:
             # split to class number and remaining seats
             class_number_and_seats = course.split(';')
+            print class_number_and_seats
             # if the class number is in activating courses list
             if class_number_and_seats[0] in activating_class_number_list:
                 # remove it
