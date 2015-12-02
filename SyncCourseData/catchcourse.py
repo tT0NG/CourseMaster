@@ -30,6 +30,7 @@ def add_class2():
     sync_class(B)
 
 def sync_class(activating_class_number_list):
+    time.sleep(2)
     # init the browser
     br = mechanize.Browser()
     br.addheaders = [('User-agent',
@@ -55,7 +56,6 @@ def sync_class(activating_class_number_list):
         c = RunningCount.objects.get(id=1)
         c.count += 1
         c.save()
-        time.sleep(5)
         # get returned course list
         course_list = br.response().read().split('!')[1::2]
         # for every course in returned course list
