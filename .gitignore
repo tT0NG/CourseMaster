@@ -61,3 +61,5 @@ target/
 mysite.nginx.conf
 mysite_uwsgi.conf
 db.sqlite3
+
+*.pyc
