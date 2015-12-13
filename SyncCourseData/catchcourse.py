@@ -133,7 +133,7 @@ def submitClass(usrname, password, sectionNubmer):
         for f in br.form.controls:
             list.append(f.name)
         radioID = list[1]
-        br[radioID] = ['1 @ 2']
+        br[radioID] = ['1 @ 1']
         br.submit()
 
         # 页面有语法错误，更正
