@@ -30,7 +30,7 @@ def add_class2():
     sync_class(B)
 
 def sync_class(activating_class_number_list):
-    time.sleep(2)
+    # time.sleep(0)
     # init the browser
     br = mechanize.Browser()
     br.addheaders = [('User-agent',
