@@ -74,6 +74,7 @@ def sync_class(activating_class_number_list):
                     user = cathing_course.get_first_user()
                     if submitClass(user.psu_account, user.psu_password, class_number_and_seats[0]):
                         user.add_course_caught(class_number_and_seats[0])
+                        user.remove_course(class_number_and_seats[0])
                         cathing_course.remove_user(user.username)
                         # send email
                         try:

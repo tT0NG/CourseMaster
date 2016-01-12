@@ -63,3 +63,7 @@ mysite_uwsgi.conf
 db.sqlite3
 
 *.pyc
+
+*.pyc
+
+AddCourse/views.pyc
