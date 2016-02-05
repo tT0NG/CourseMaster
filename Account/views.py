@@ -79,11 +79,7 @@ def InitDataView(request):
 
         courses = Course.objects.all()
         for course in courses:
-            course.is_active = False
-            course.user_list = []
-            course.vip_list = []
-            course.super_vip_list = []
-            course.save()
+            course.delete()
 
         return HttpResponseRedirect('/steve/')
     else:
