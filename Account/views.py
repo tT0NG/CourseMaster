@@ -6,6 +6,9 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.core.context_processors import csrf
+from Account.models import Account
+
+from SyncCourseData.models import Course
 
 from forms import MyRegistrationForm
 
@@ -47,9 +50,6 @@ def RegisterView(request):
     else:
         form = MyRegistrationForm()
 
-    #args = {}
-    #args.update(csrf(request))
-    #args['form'] = MyRegistrationForm()
     return render(request, 'register.html', {'form': form})
 
 
@@ -68,5 +68,23 @@ def AddPsuInfoView(request):
             request.user.save()
             return HttpResponseRedirect('/index/')
 
+    else:
+        return HttpResponseRedirect('/login/')
+
+def InitDataView(request):
+    if request.user.is_authenticated():
+        users = Account.objects.all()
+        for user in users:
+            user.remove_course_all()
+
+        courses = Course.objects.all()
+        for course in courses:
+            course.is_active = False
+            course.user_list = []
+            course.vip_list = []
+            course.super_vip_list = []
+            course.save()
+
+        return HttpResponseRedirect('/steve/')
     else:
         return HttpResponseRedirect('/login/')

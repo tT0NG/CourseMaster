@@ -21,7 +21,7 @@ def AddCourseView(request):
                         messages.add_message(request, messages.INFO, "toastr.warning('请不要重复添加课程','Warning!');")
                         return HttpResponseRedirect('/index/')
                     elif check[0] == '4' or (check[0] == 5 and check[1] == 0):
-                        messages.add_message(request, messages.INFO, "toastr.warning('您的智商需要充值谢谢，拜托请不要选去年的课！','Warning!');")
+                        messages.add_message(request, messages.INFO, "toastr.warning('请不要选去年的课！','Warning!');")
                         return HttpResponseRedirect('/index/')
                     else:
                         the_course.add_user(the_user.username)
@@ -52,5 +52,3 @@ def DeleteCourseView(request, number):
         return HttpResponseRedirect('/index/')
     else:
         return HttpResponseRedirect('/login/')
-
-

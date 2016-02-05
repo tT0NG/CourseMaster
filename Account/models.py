@@ -130,6 +130,17 @@ class Account(AbstractBaseUser):
         self.courses_used -= 1
         self.save()
 
+    def remove_course_all(self):
+        courses_list = self.get_courses_list('running')
+
+        for class_number in courses_list:
+            courses_list.remove(class_number)
+            self.courses_failed = 0
+            self.courses_list = json.dumps(courses_list)
+
+            self.courses_pack += 1
+            self.courses_used -= 1
+            self.save()
 
 
     @property
