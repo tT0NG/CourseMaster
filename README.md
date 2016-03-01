@@ -11,7 +11,7 @@ This application is made for ...
 * mechanize
 
 ## Author
-C0deZ
+C0deZ (c0dezlee@gmail.com)
 
 ## License 
 MIT
