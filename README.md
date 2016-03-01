@@ -1,6 +1,7 @@
 # CourseMaster
 This is the old sourse code of psuclass.com.
-Because PSU changed the old course manage system to Lionpath, this version is no longer useful, so I decided to open source it.
+
+Due to PSU changed the  course manage system from eLion to Lionpath, this version is no longer useful, so I decided to open source it.
 
 ## Description
 Based on Django.
