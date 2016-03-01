@@ -7,8 +7,8 @@ Based on Django.
 This application is made for ...
 
 ## Used Library
-*django-widget-tweaks
-*mechanize
+* django-widget-tweaks
+* mechanize
 
 ## Author
 C0deZ
